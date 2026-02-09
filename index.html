@@ -4,50 +4,67 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gym Coaching Website</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
+  <main class="container">
+    <section class="hero">
+      <h1>Gym Coaching Website</h1>
+      <p>
+        A simple, clean landing page for a fitness coach. Built to demonstrate responsive UI,
+        clear information hierarchy, and a real-world product structure.
+      </p>
 
-  <!-- Header -->
-  <header>
-    <h1>Gym Coaching</h1>
-    <nav>
-      <a href="#">Home</a> |
-      <a href="#">Programs</a> |
-      <a href="#">Contact</a>
-    </nav>
-  </header>
+      <div class="btns">
+        <a class="btn" href="#features">Features</a>
+        <a class="btn" href="#stack">Tech Stack</a>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+    </section>
 
-  <!-- Hero Section -->
-  <section>
-    <h2>Train Smarter. Get Stronger.</h2>
-    <p>Personalized gym coaching to help you reach your fitness goals.</p>
-    <button>Join Now</button>
-  </section>
+    <section id="features" class="grid">
+      <div class="card">
+        <h3>Responsive UI</h3>
+        <p>Mobile-first layout with readable typography and clean spacing.</p>
+      </div>
+      <div class="card">
+        <h3>Program Pages</h3>
+        <p>Clear structure for coaching plans: goals, pricing, and schedules.</p>
+      </div>
+      <div class="card">
+        <h3>Community / Forum</h3>
+        <p>Optional area for coach-client interaction and progress sharing.</p>
+      </div>
+      <div class="card">
+        <h3>Firebase Ready</h3>
+        <p>Designed to connect authentication + database for real users.</p>
+      </div>
+    </section>
 
-  <!-- Programs -->
-  <section>
-    <h2>Coaching Programs</h2>
+    <section id="stack" class="grid" style="margin-top:14px;">
+      <div class="card">
+        <h3>Frontend</h3>
+        <p>HTML, CSS, JavaScript</p>
+      </div>
+      <div class="card">
+        <h3>Backend</h3>
+        <p>Firebase (Auth + Firestore)</p>
+      </div>
+      <div class="card">
+        <h3>Tools</h3>
+        <p>GitHub, VS Code</p>
+      </div>
+      <div class="card" id="contact">
+        <h3>Contact</h3>
+        <p>Add your email / Instagram / WhatsApp here.</p>
+      </div>
+    </section>
 
-    <div>
-      <h3>Beginner Program</h3>
-      <p>Start your fitness journey with confidence.</p>
-    </div>
+    <footer>
+      © <span id="year"></span> Akram — Gym Coaching Website
+    </footer>
+  </main>
 
-    <div>
-      <h3>Muscle Building</h3>
-      <p>Structured plans for strength and hypertrophy.</p>
-    </div>
-
-    <div>
-      <h3>Fat Loss</h3>
-      <p>Effective training combined with smart nutrition.</p>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2026 Gym Coaching. All rights reserved.</p>
-  </footer>
-
+  <script src="./script.js"></script>
 </body>
 </html>
