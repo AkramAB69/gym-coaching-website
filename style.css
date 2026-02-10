@@ -8,7 +8,6 @@
 
 * {
   box-sizing: border-box;
-  scroll-behavior: smooth;
 }
 
 body {
@@ -25,15 +24,10 @@ body {
   align-items: center;
 }
 
-.header h1 {
-  margin: 0;
-}
-
 .header a {
-  margin-left: 16px;
+  margin-left: 14px;
   text-decoration: none;
   color: var(--muted);
-  font-weight: 500;
 }
 
 .header a:hover {
@@ -46,7 +40,7 @@ main {
 
 .card {
   background: linear-gradient(145deg, #0f1b2d, #0a1424);
-  border-radius: 22px;
+  border-radius: 24px;
   padding: 30px;
   margin-bottom: 30px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.45);
@@ -57,8 +51,7 @@ main {
 }
 
 .hero h2 {
-  font-size: 30px;
-  margin-bottom: 10px;
+  font-size: 32px;
 }
 
 .hero p {
@@ -67,19 +60,17 @@ main {
 
 button {
   background: var(--accent);
-  color: #022;
   border: none;
   padding: 14px 28px;
-  border-radius: 14px;
-  font-size: 16px;
+  border-radius: 16px;
   font-weight: 700;
-  margin-top: 18px;
+  margin-top: 16px;
   cursor: pointer;
   box-shadow: 0 10px 30px rgba(46,204,113,0.4);
 }
 
 button:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .pricing {
@@ -92,7 +83,6 @@ button:hover {
   border-radius: 24px;
   padding: 32px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
 }
 
 .price-card.highlight {
@@ -102,7 +92,6 @@ button:hover {
 .price {
   color: var(--accent);
   font-size: 24px;
-  margin: 12px 0;
 }
 
 ul {
@@ -115,8 +104,33 @@ ul li {
   margin: 8px 0;
 }
 
+blockquote {
+  color: var(--muted);
+  font-style: italic;
+  margin: 20px 0;
+}
+
+blockquote span {
+  display: block;
+  margin-top: 6px;
+  color: var(--text);
+}
+
+form {
+  display: grid;
+  gap: 12px;
+}
+
+input, textarea {
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #081225;
+  color: var(--text);
+}
+
 footer {
   text-align: center;
-  color: var(--muted);
   padding: 30px 0;
+  color: var(--muted);
 }
