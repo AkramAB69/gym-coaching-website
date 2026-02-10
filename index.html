@@ -4,27 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gym Coaching</title>
-
-  <!-- CSS -->
   <link rel="stylesheet" href="./style.css" />
-
-  <!-- Smooth scroll -->
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
 </head>
 
 <body>
@@ -42,14 +22,14 @@
 <main>
 
   <!-- HERO -->
-  <section id="home" class="card reveal hero">
+  <section id="home" class="card hero">
     <h2>Train Smarter. Get Stronger.</h2>
     <p>Personalized gym coaching to help you reach your fitness goals.</p>
     <button>Join Now</button>
   </section>
 
   <!-- PROGRAMS -->
-  <section id="programs" class="card reveal">
+  <section id="programs" class="card">
     <h2>Coaching Programs</h2>
 
     <h3>Beginner Program</h3>
@@ -63,36 +43,43 @@
   </section>
 
   <!-- PRICING -->
-  <section id="pricing" class="card reveal">
-    <h2>Pricing</h2>
+  <section id="pricing" class="pricing">
+    <div class="price-card">
+      <h3>Starter</h3>
+      <p class="price">$49 / month</p>
+      <ul>
+        <li>Beginner plan</li>
+        <li>Email support</li>
+        <li>Weekly check-in</li>
+      </ul>
+      <button>Get Started</button>
+    </div>
 
-    <h3>$49 / month</h3>
-    <ul>
-      <li>Beginner plan</li>
-      <li>Email support</li>
-      <li>Weekly check-in</li>
-    </ul>
-    <button>Get Started</button>
+    <div class="price-card highlight">
+      <h3>Pro</h3>
+      <p class="price">$99 / month</p>
+      <ul>
+        <li>Custom workouts</li>
+        <li>Nutrition guidance</li>
+        <li>24/7 support</li>
+      </ul>
+      <button>Join Pro</button>
+    </div>
 
-    <h3>$99 / month</h3>
-    <ul>
-      <li>Custom workouts</li>
-      <li>Nutrition guidance</li>
-      <li>24/7 support</li>
-    </ul>
-    <button>Join Pro</button>
-
-    <h3>$149 / month</h3>
-    <ul>
-      <li>1-on-1 coaching</li>
-      <li>Weekly calls</li>
-      <li>Full lifestyle plan</li>
-    </ul>
-    <button>Go Elite</button>
+    <div class="price-card">
+      <h3>Elite</h3>
+      <p class="price">$149 / month</p>
+      <ul>
+        <li>1-on-1 coaching</li>
+        <li>Weekly calls</li>
+        <li>Full lifestyle plan</li>
+      </ul>
+      <button>Go Elite</button>
+    </div>
   </section>
 
   <!-- CONTACT -->
-  <section id="contact" class="card reveal">
+  <section id="contact" class="card">
     <h2>Contact</h2>
     <p>Email: coach@email.com</p>
     <p>Instagram: @gymcoach</p>
@@ -103,23 +90,6 @@
 <footer>
   © 2026 Gym Coaching. All rights reserved.
 </footer>
-
-<!-- Reveal animation -->
-<script>
-  const reveals = document.querySelectorAll('.reveal');
-
-  function revealOnScroll() {
-    reveals.forEach(el => {
-      const top = el.getBoundingClientRect().top;
-      if (top < window.innerHeight - 100) {
-        el.classList.add('active');
-      }
-    });
-  }
-
-  window.addEventListener('scroll', revealOnScroll);
-  revealOnScroll();
-</script>
 
 </body>
 </html>
