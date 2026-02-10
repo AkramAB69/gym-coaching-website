@@ -71,3 +71,32 @@ footer{
   color: var(--muted);
   font-size: 14px;
 }
+nav {
+  margin-top: 16px;
+}
+
+nav a {
+  color: #8fafc9;
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+button {
+  background: #22c55e;
+  color: #022c22;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #16a34a;
+}
