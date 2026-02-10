@@ -4,180 +4,118 @@
   --text: #e8f0ff;
   --muted: #9bb0d0;
   --accent: #22c55e;
-  --border: rgba(255,255,255,0.08);
 }
 
 * {
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Inter, Helvetica, Arial, sans-serif;
-  background: linear-gradient(180deg, #0b1220, #060b14);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  background: var(--bg);
   color: var(--text);
 }
 
-/* ---------- HEADER ---------- */
-header {
-  padding: 28px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.header {
+  padding: 20px;
+  text-align: center;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 28px;
-  letter-spacing: 0.5px;
+.header nav {
+  margin-top: 10px;
 }
 
-nav a {
+.header a {
   color: var(--muted);
+  margin: 0 10px;
   text-decoration: none;
-  margin-left: 24px;
   font-weight: 500;
 }
 
-nav a:hover {
-  color: var(--text);
+.header a:hover {
+  color: var(--accent);
 }
 
-/* ---------- SECTIONS ---------- */
-section {
-  padding: 32px 20px;
-  max-width: 1100px;
+main {
+  padding: 20px;
+  max-width: 900px;
   margin: auto;
 }
 
-/* ---------- CARDS ---------- */
 .card {
-  background: linear-gradient(180deg, #0f1b2d, #0c1626);
-  border: 1px solid var(--border);
+  background: var(--card);
   border-radius: 20px;
-  padding: 32px;
-  margin-bottom: 28px;
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.03);
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
-/* ---------- HERO ---------- */
-.card:first-child {
-  padding: 48px 40px;
+.hero {
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
 }
 
 h2 {
-  font-size: 36px;
   margin-top: 0;
-}
-
-h3 {
-  font-size: 22px;
-  margin-bottom: 6px;
 }
 
 p {
   color: var(--muted);
-  line-height: 1.6;
-  font-size: 16px;
 }
 
-/* ---------- BUTTON ---------- */
 button {
-  margin-top: 18px;
+  background: var(--accent);
+  border: none;
+  border-radius: 12px;
   padding: 14px 28px;
   font-size: 16px;
-  font-weight: 600;
-  color: #052e16;
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  border: none;
-  border-radius: 14px;
   cursor: pointer;
-  box-shadow: 0 10px 20px rgba(34,197,94,0.35);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  margin-top: 15px;
 }
 
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(34,197,94,0.45);
+  opacity: 0.9;
 }
 
-/* ---------- FOOTER ---------- */
+/* Pricing */
+.pricing-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.price-card {
+  background: #0c1628;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.price {
+  font-size: 22px;
+  color: var(--accent);
+}
+
+.price-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.price-card li {
+  margin: 8px 0;
+  color: var(--muted);
+}
+
+.featured {
+  border: 2px solid var(--accent);
+  transform: scale(1.03);
+}
+
 footer {
   text-align: center;
-  padding: 28px;
+  padding: 20px;
   color: var(--muted);
-  font-size: 14px;
-}
-
-/* ---------- MOBILE ---------- */
-@media (max-width: 700px) {
-  header {
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  nav a {
-    margin: 0 12px;
-  }
-
-  h2 {
-    font-size: 28px;
-  }
-}
-/* ===== HOVER ANIMATIONS ===== */
-
-/* Card hover */
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-
-/* Button hover */
-button {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-}
-
-/* Nav link hover */
-nav a {
-  position: relative;
-  transition: color 0.2s ease;
-}
-
-nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background: var(--accent);
-  transition: width 0.25s ease;
-}
-
-nav a:hover::after {
-  width: 100%;
-}
-/* Mobile tap feedback */
-button:active {
-  transform: scale(0.95);
-}
-
-.card:active {
-  transform: scale(0.98);
 }
