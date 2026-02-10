@@ -100,3 +100,32 @@ button {
 button:hover {
   background: #16a34a;
 }
+/* ---------- LAYOUT ---------- */
+
+header,
+section,
+footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+header {
+  padding-top: 40px;
+  padding-bottom: 32px;
+}
+
+nav {
+  margin-top: 12px;
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
