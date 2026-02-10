@@ -173,3 +173,11 @@ nav a::after {
 nav a:hover::after {
   width: 100%;
 }
+/* Mobile tap feedback */
+button:active {
+  transform: scale(0.95);
+}
+
+.card:active {
+  transform: scale(0.98);
+}
