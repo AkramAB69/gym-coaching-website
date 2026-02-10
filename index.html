@@ -15,6 +15,7 @@
     <a href="#home">Home</a>
     <a href="#programs">Programs</a>
     <a href="#pricing">Pricing</a>
+    <a href="#testimonials">Reviews</a>
     <a href="#contact">Contact</a>
   </nav>
 </header>
@@ -24,22 +25,22 @@
   <!-- HERO -->
   <section id="home" class="card hero">
     <h2>Train Smarter. Get Stronger.</h2>
-    <p>Personalized gym coaching to help you reach your fitness goals.</p>
-    <button onclick="alert('Payment coming soon')">Join Now</button>
+    <p>1-on-1 online coaching built for real results.</p>
+    <button onclick="scrollToSection('pricing')">Join Now</button>
   </section>
 
   <!-- PROGRAMS -->
   <section id="programs" class="card">
     <h2>Coaching Programs</h2>
 
-    <h3>Beginner Program</h3>
-    <p>Start your fitness journey with confidence.</p>
+    <h3>Beginner</h3>
+    <p>Learn correct form, build consistency, avoid injuries.</p>
 
     <h3>Muscle Building</h3>
-    <p>Structured plans for strength and hypertrophy.</p>
+    <p>Progressive overload, hypertrophy plans, recovery tracking.</p>
 
     <h3>Fat Loss</h3>
-    <p>Effective training combined with smart nutrition.</p>
+    <p>Training + nutrition strategy tailored to your lifestyle.</p>
   </section>
 
   <!-- PRICING -->
@@ -53,7 +54,7 @@
         <li>Email support</li>
         <li>Weekly check-in</li>
       </ul>
-      <button>Get Started</button>
+      <button onclick="fakePay()">Get Started</button>
     </div>
 
     <div class="price-card highlight">
@@ -64,7 +65,7 @@
         <li>Nutrition guidance</li>
         <li>24/7 support</li>
       </ul>
-      <button>Join Pro</button>
+      <button onclick="fakePay()">Join Pro</button>
     </div>
 
     <div class="price-card">
@@ -75,9 +76,29 @@
         <li>Weekly calls</li>
         <li>Full lifestyle plan</li>
       </ul>
-      <button>Go Elite</button>
+      <button onclick="fakePay()">Go Elite</button>
     </div>
 
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="card">
+    <h2>Client Results</h2>
+
+    <blockquote>
+      “Lost 12kg in 4 months. Best coaching I’ve ever had.”  
+      <span>— Alex</span>
+    </blockquote>
+
+    <blockquote>
+      “Strength doubled, zero injuries, finally consistent.”  
+      <span>— Mark</span>
+    </blockquote>
+
+    <blockquote>
+      “Simple, clear, effective. Worth every dollar.”  
+      <span>— Sarah</span>
+    </blockquote>
   </section>
 
   <!-- CONTACT -->
@@ -85,6 +106,13 @@
     <h2>Contact</h2>
     <p>Email: coach@email.com</p>
     <p>Instagram: @gymcoach</p>
+
+    <form onsubmit="sendMessage(event)">
+      <input type="text" placeholder="Your name" required />
+      <input type="email" placeholder="Your email" required />
+      <textarea placeholder="Your message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
   </section>
 
 </main>
@@ -92,6 +120,21 @@
 <footer>
   © 2026 Gym Coaching. All rights reserved.
 </footer>
+
+<script>
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+}
+
+function fakePay() {
+  alert("Payment system coming soon. Contact via email or Instagram.");
+}
+
+function sendMessage(e) {
+  e.preventDefault();
+  alert("Message sent! Coach will contact you soon.");
+}
+</script>
 
 </body>
 </html>
