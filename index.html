@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gym Coaching</title>
+<title>Gym Coaching App</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -20,89 +20,49 @@ scroll-behavior:smooth;
 body{
 background:linear-gradient(180deg,#0b132b,#1c2541);
 color:white;
-overflow-x:hidden;
 }
 
-/* NAVBAR */
+/* NAV */
 
 nav{
 display:flex;
 justify-content:space-between;
 padding:20px 60px;
-align-items:center;
+background:#0b132bee;
 position:sticky;
 top:0;
-background:#0b132bee;
-backdrop-filter:blur(12px);
-z-index:1000;
+backdrop-filter:blur(10px);
 }
 
 nav a{
 color:white;
 text-decoration:none;
-margin-left:25px;
-font-weight:500;
-transition:.3s;
+margin-left:20px;
+cursor:pointer;
 }
 
-nav a:hover{
-color:#39ff14;
-}
+nav a:hover{color:#39ff14}
 
 /* HERO */
 
 .hero{
 text-align:center;
-padding:120px 20px 90px;
-animation:fadeUp 1s ease forwards;
-}
-
-.hero h1{
-font-size:44px;
-margin-bottom:15px;
-}
-
-.hero p{
-opacity:.8;
-margin-bottom:30px;
+padding:120px 20px;
 }
 
 .btn{
 background:#39ff14;
 border:none;
-padding:14px 32px;
+padding:14px 30px;
 border-radius:12px;
 font-weight:600;
 cursor:pointer;
-box-shadow:0 0 18px #39ff14aa;
+box-shadow:0 0 20px #39ff14aa;
 transition:.3s;
 }
 
 .btn:hover{
 transform:scale(1.08);
-box-shadow:0 0 25px #39ff14;
-}
-
-/* STATS */
-
-.stats{
-display:flex;
-justify-content:center;
-gap:30px;
-margin-top:45px;
-flex-wrap:wrap;
-}
-
-.stat{
-background:#ffffff10;
-padding:22px 40px;
-border-radius:14px;
-backdrop-filter:blur(10px);
-transition:.4s;
-}
-
-.stat:hover{
-transform:translateY(-6px);
 }
 
 /* SECTIONS */
@@ -112,91 +72,52 @@ padding:90px 60px;
 text-align:center;
 }
 
-/* CARDS */
-
 .cards{
-display:flex;
-gap:28px;
-justify-content:center;
-flex-wrap:wrap;
-margin-top:45px;
-}
-
-.card{
-background:#ffffff12;
-padding:32px;
-border-radius:18px;
-width:280px;
-backdrop-filter:blur(15px);
-transition:.4s;
-opacity:0;
-transform:translateY(40px);
-}
-
-.card.show{
-opacity:1;
-transform:translateY(0);
-}
-
-.card:hover{
-transform:translateY(-10px) scale(1.03);
-box-shadow:0 0 25px #39ff1440;
-}
-
-/* FEATURES */
-
-.features{
 display:flex;
 gap:30px;
 flex-wrap:wrap;
 justify-content:center;
-margin-top:45px;
+margin-top:40px;
 }
 
-.feature{
-width:260px;
-background:#ffffff10;
-padding:26px;
+.card{
+background:#ffffff12;
+padding:30px;
 border-radius:16px;
+width:280px;
 transition:.4s;
-opacity:0;
-transform:translateY(40px);
 }
 
-.feature.show{
-opacity:1;
-transform:translateY(0);
-}
-
-.feature:hover{
+.card:hover{
 transform:translateY(-8px);
 box-shadow:0 0 20px #39ff1440;
 }
 
-/* PRICING */
+/* LOGIN MODAL */
 
-.price{
-border:1px solid #39ff1455;
-}
-
-.price h2{
-color:#39ff14;
-margin:12px 0;
-}
-
-/* CONTACT */
-
-.contact{
-display:flex;
-gap:40px;
-justify-content:center;
-flex-wrap:wrap;
-margin-top:40px;
-}
-
-input, textarea{
+.modal{
+position:fixed;
+top:0;
+left:0;
 width:100%;
-padding:13px;
+height:100%;
+background:#000000cc;
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#1c2541;
+padding:40px;
+border-radius:16px;
+width:320px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:12px;
 margin-top:10px;
 border-radius:10px;
 border:none;
@@ -204,25 +125,34 @@ background:#ffffff15;
 color:white;
 }
 
-textarea{
-height:120px;
+/* DASHBOARD */
+
+.dashboard{
+display:none;
+padding:80px 60px;
+text-align:center;
 }
 
-/* FOOTER */
+.dashboard-cards{
+display:flex;
+gap:30px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:40px;
+}
+
+.stat{
+background:#ffffff12;
+padding:30px;
+border-radius:16px;
+width:260px;
+}
 
 footer{
 text-align:center;
 padding:40px;
 opacity:.6;
 margin-top:60px;
-border-top:1px solid #ffffff20;
-}
-
-/* ANIMATION */
-
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(40px);}
-to{opacity:1;transform:translateY(0);}
 }
 
 </style>
@@ -233,120 +163,120 @@ to{opacity:1;transform:translateY(0);}
 <nav>
 <h2>Gym Coaching</h2>
 <div>
-<a href=" ">Home</a >
-<a href="#programs">Programs</a >
-<a href="#pricing">Pricing</a >
-<a href="#contact">Contact</a >
+<a onclick="showHome()">Home</a >
+<a href=" ">Pricing</a >
+<a onclick="openLogin()">Login</a >
 </div>
 </nav>
 
-<!-- HERO -->
+<!-- HOME -->
+<div id="home">
+
 <section class="hero">
 <h1>Full-Stack Fitness Coaching Web Application</h1>
-<p>Responsive coaching platform powered by modern frontend and Firebase backend integration.</p >
-
-<button class="btn" onclick="location.href='#pricing'">View Plans</button>
-
-<div class="stats">
-<div class="stat"><h3>3</h3><p>Programs</p ></div>
-<div class="stat"><h3>3</h3><p>Pricing Tiers</p ></div>
-<div class="stat"><h3>24/7</h3><p>Support</p ></div>
-</div>
+<p>Interactive coaching platform with client dashboard experience.</p >
+<button class="btn" onclick="openLogin()">Start Coaching</button>
 </section>
 
-<!-- FEATURES -->
-<section>
-<h2>Why Choose Our Coaching</h2>
-
-<div class="features">
-<div class="feature"><h3>Personalized Training</h3><p>Programs adapted to your goals.</p ></div>
-<div class="feature"><h3>Progress Tracking</h3><p>Monitor strength and results weekly.</p ></div>
-<div class="feature"><h3>Nutrition Guidance</h3><p>Smart diet planning for real progress.</p ></div>
-<div class="feature"><h3>Online Coaching</h3><p>Stay connected anytime.</p ></div>
-</div>
-</section>
-
-<!-- PROGRAMS -->
-<section id="programs">
-<h2>Coaching Programs</h2>
-
-<div class="cards">
-<div class="card"><h3>Beginner</h3><p>Build consistency and avoid injuries.</p ></div>
-<div class="card"><h3>Muscle Building</h3><p>Hypertrophy and progressive overload.</p ></div>
-<div class="card"><h3>Fat Loss</h3><p>Training tailored to lifestyle.</p ></div>
-</div>
-</section>
-
-<!-- PRICING -->
 <section id="pricing">
 <h2>Pricing Plans</h2>
 
 <div class="cards">
-<div class="card price">
+<div class="card">
 <h3>Starter</h3>
-<h2>$49 / month</h2>
+<h2 style="color:#39ff14">$49</h2>
 <p>Email support</p >
 <p>Weekly check-in</p >
-<button class="btn">Get Started</button>
 </div>
 
-<div class="card price">
+<div class="card">
 <h3>Pro</h3>
-<h2>$99 / month</h2>
+<h2 style="color:#39ff14">$99</h2>
 <p>Custom workouts</p >
 <p>Nutrition guidance</p >
-<p>24/7 support</p >
-<button class="btn">Join Pro</button>
 </div>
 
-<div class="card price">
+<div class="card">
 <h3>Elite</h3>
-<h2>$149 / month</h2>
+<h2 style="color:#39ff14">$149</h2>
 <p>1-on-1 coaching</p >
 <p>Weekly calls</p >
-<p>Full lifestyle plan</p >
-<button class="btn">Join Elite</button>
 </div>
 </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
-<h2>Contact</h2>
-
-<div class="contact">
-<div>
-<p>Email: coach@email.com</p >
-<p>Instagram: @gymcoach</p >
 </div>
 
-<div style="width:350px;">
-<input placeholder="Your name">
-<input placeholder="Your email">
-<textarea placeholder="Your message"></textarea>
-<button class="btn" style="margin-top:15px;">Send Message</button>
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard">
+
+<h1>Your Coaching Dashboard</h1>
+<p>Welcome back, Athlete 👋</p >
+
+<div class="dashboard-cards">
+
+<div class="stat">
+<h3>Weekly Plan</h3>
+<p>Push • Pull • Legs program active</p >
+</div>
+
+<div class="stat">
+<h3>Progress</h3>
+<p>+3kg strength improvement</p >
+</div>
+
+<div class="stat">
+<h3>Nutrition</h3>
+<p>2400 kcal • 180g protein target</p >
+</div>
+
+</div>
+
+<br><br>
+<button class="btn" onclick="logout()">Logout</button>
+
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+<div class="modal-content">
+<h2>Member Login</h2>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<br><br>
+<button class="btn" onclick="login()">Login</button>
 </div>
 </div>
-</section>
 
 <footer>
-© 2026 Gym Coaching — Portfolio Project
+© 2026 Gym Coaching App — Portfolio Demo
 </footer>
 
 <script>
 
-/* SCROLL ANIMATION */
-const observer = new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add("show");
-}
-});
-});
+/* LOGIN SYSTEM (PORTFOLIO DEMO) */
 
-document.querySelectorAll(".card, .feature").forEach(el=>{
-observer.observe(el);
-});
+function openLogin(){
+document.getElementById("loginModal").style.display="flex";
+}
+
+function login(){
+document.getElementById("loginModal").style.display="none";
+document.getElementById("home").style.display="none";
+document.getElementById("dashboard").style.display="block";
+}
+
+function logout(){
+document.getElementById("dashboard").style.display="none";
+document.getElementById("home").style.display="block";
+}
+
+function showHome(){
+document.getElementById("dashboard").style.display="none";
+document.getElementById("home").style.display="block";
+}
 
 </script>
 
