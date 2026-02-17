@@ -11,9 +11,8 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
 <header class="navbar">
-  <h2>Gym Coaching</h2>
+  <h2 class="logo">Gym Coaching</h2>
   <nav>
     <a href=" ">Home</a >
     <a href="#programs">Programs</a >
@@ -23,10 +22,10 @@
 </header>
 
 <!-- HERO -->
-<section id="home" class="hero">
+<section id="home" class="hero reveal">
   <h1>Full-Stack Fitness Coaching Web Application</h1>
   <p>
-    Portfolio project demonstrating responsive frontend design and coaching dashboard concepts.
+    Interactive coaching platform demonstrating modern UI design and dashboard concepts.
   </p >
 
   <button onclick="scrollToSection('pricing')">
@@ -34,115 +33,117 @@
   </button>
 
   <div class="stats">
-    <div class="statCard">
-      <h3>3</h3>
-      <p>Programs</p >
-    </div>
-
-    <div class="statCard">
-      <h3>3</h3>
-      <p>Pricing Tiers</p >
-    </div>
-
-    <div class="statCard">
-      <h3>24/7</h3>
-      <p>Support (Demo)</p >
-    </div>
+    <div class="statCard reveal">3<br><span>Programs</span></div>
+    <div class="statCard reveal">3<br><span>Pricing Tiers</span></div>
+    <div class="statCard reveal">24/7<br><span>Support</span></div>
   </div>
 </section>
 
 <!-- PROGRAMS -->
 <section id="programs" class="section">
-  <h2>Coaching Programs</h2>
+<h2 class="reveal">Coaching Programs</h2>
 
-  <div class="cardGrid">
+<div class="cardGrid">
 
-    <div class="card">
-      <h3>Beginner</h3>
-      <p>Learn correct form, build consistency and avoid injuries.</p >
-      <span class="tag">Best for starting out</span>
-    </div>
+<div class="card reveal">
+<h3>Beginner</h3>
+<p>Learn correct form, build consistency and avoid injuries.</p >
+<span class="tag">Best for starting out</span>
+</div>
 
-    <div class="card">
-      <h3>Muscle Building</h3>
-      <p>Progressive overload programs and recovery tracking.</p >
-      <span class="tag">Strength & hypertrophy</span>
-    </div>
+<div class="card reveal">
+<h3>Muscle Building</h3>
+<p>Progressive overload programs and recovery tracking.</p >
+<span class="tag">Strength & Hypertrophy</span>
+</div>
 
-    <div class="card">
-      <h3>Fat Loss</h3>
-      <p>Training and nutrition strategy tailored to lifestyle.</p >
-      <span class="tag">Sustainable results</span>
-    </div>
+<div class="card reveal">
+<h3>Fat Loss</h3>
+<p>Training and nutrition strategy tailored to lifestyle.</p >
+<span class="tag">Sustainable Results</span>
+</div>
 
-  </div>
+</div>
 </section>
 
 <!-- PRICING -->
 <section id="pricing" class="section">
-  <h2>Pricing Plans</h2>
+<h2 class="reveal">Pricing Plans</h2>
 
-  <div class="pricingGrid">
+<div class="pricingGrid">
 
-    <div class="priceCard">
-      <h3>Starter</h3>
-      <h1>$49</h1>
-      <p>Email support</p >
-      <p>Weekly check-in</p >
-      <button class="secondary">Get Started</button>
-    </div>
+<div class="priceCard reveal">
+<h3>Starter</h3>
+<h1>$49</h1>
+<p>Email support</p >
+<p>Weekly check-in</p >
+<button class="secondary">Get Started</button>
+</div>
 
-    <div class="priceCard featured">
-      <h3>Pro</h3>
-      <h1>$99</h1>
-      <p>Custom workouts</p >
-      <p>Nutrition guidance</p >
-      <p>24/7 support</p >
-      <button>Join Pro</button>
-    </div>
+<div class="priceCard featured reveal">
+<h3>Pro</h3>
+<h1>$99</h1>
+<p>Custom workouts</p >
+<p>Nutrition guidance</p >
+<p>24/7 support</p >
+<button>Join Pro</button>
+</div>
 
-    <div class="priceCard">
-      <h3>Elite</h3>
-      <h1>$149</h1>
-      <p>1-on-1 coaching</p >
-      <p>Weekly calls</p >
-      <p>Full lifestyle plan</p >
-      <button class="secondary">Join Elite</button>
-    </div>
+<div class="priceCard reveal">
+<h3>Elite</h3>
+<h1>$149</h1>
+<p>1-on-1 coaching</p >
+<p>Weekly calls</p >
+<p>Full lifestyle plan</p >
+<button class="secondary">Join Elite</button>
+</div>
 
-  </div>
+</div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact" class="section">
-  <h2>Contact</h2>
+<h2 class="reveal">Contact</h2>
 
-  <div class="contactBox">
+<div class="contactBox">
 
-    <div class="contactInfo">
-      <p><strong>Email:</strong> coach@email.com</p >
-      <p><strong>Instagram:</strong> @gymcoach</p >
-      <small>This is a demo contact section for portfolio purposes.</small>
-    </div>
+<div class="contactInfo reveal">
+<p><strong>Email:</strong> coach@email.com</p >
+<p><strong>Instagram:</strong> @gymcoach</p >
+<small>Demo contact section for portfolio.</small>
+</div>
 
-    <form class="contactForm">
-      <input placeholder="Your name">
-      <input placeholder="Your email">
-      <textarea placeholder="Your message"></textarea>
-      <button type="button">Send Message</button>
-    </form>
+<form class="contactForm reveal">
+<input placeholder="Your name">
+<input placeholder="Your email">
+<textarea placeholder="Your message"></textarea>
+<button type="button">Send Message</button>
+</form>
 
-  </div>
+</div>
 </section>
 
-<footer>
-  © 2026 Gym Coaching App — Portfolio Demo
+<footer class="reveal">
+© 2026 Gym Coaching App — Portfolio Demo
 </footer>
 
 <script>
 function scrollToSection(id){
   document.getElementById(id).scrollIntoView({behavior:"smooth"});
 }
+
+/* SCROLL ANIMATION */
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("active");
+    }
+  });
+},{threshold:0.15});
+
+document.querySelectorAll(".reveal").forEach(el=>{
+  observer.observe(el);
+});
 </script>
 
 </body>
