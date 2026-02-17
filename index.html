@@ -3,26 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gym Coaching — Startup Architecture</title>
+<title>Gym Coaching Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body{margin:0;font-family:system-ui;background:#0f172a;color:white}
-.hidden{display:none}
-.center{height:100vh;display:flex;justify-content:center;align-items:center}
-.card{background:#1e293b;padding:20px;border-radius:12px;margin:12px}
-.sidebar{position:fixed;width:220px;height:100vh;background:#020617;padding:20px}
-.main{margin-left:240px;padding:30px}
-button,input{width:100%;padding:10px;margin-top:8px;border:none;border-radius:6px}
-button{background:#22c55e;color:white;cursor:pointer}
-.rank{display:flex;justify-content:space-between;padding:6px 0}
+body{
+margin:0;
+font-family:system-ui;
+background:#0f172a;
+color:white;
+}
+
+/* layout */
+.sidebar{
+position:fixed;
+width:230px;
+height:100vh;
+background:#020617;
+padding:20px;
+}
+
+.main{
+margin-left:250px;
+padding:30px;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+margin-bottom:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+button{
+width:100%;
+padding:10px;
+margin-top:10px;
+border:none;
+border-radius:6px;
+background:#22c55e;
+color:white;
+cursor:pointer;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:8px;
+border-radius:6px;
+border:none;
+}
+
+.hidden{display:none;}
+
+.center{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.rank{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+border-bottom:1px solid #334155;
+}
 </style>
 </head>
 
 <body>
 
-<!-- AUTH -->
+<!-- LOGIN -->
 <div id="auth" class="center">
-<div class="card">
+<div class="card" style="width:320px">
 <h2>Gym Coaching</h2>
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
@@ -35,28 +96,51 @@ button{background:#22c55e;color:white;cursor:pointer}
 <div id="app" class="hidden">
 
 <aside class="sidebar">
-<h2>🏋 System</h2>
-<button onclick="nav('dashboard')">Dashboard</button>
-<button onclick="nav('leaderboard')">Leaderboard</button>
+<h2>🏋 Dashboard</h2>
+<button onclick="show('dash')">Dashboard</button>
+<button onclick="show('analytics')">Analytics</button>
+<button onclick="show('leaderboard')">Leaderboard</button>
 <button onclick="logout()">Logout</button>
 </aside>
 
 <main class="main">
 
-<section id="dashboard">
+<section id="dash">
 <h1 id="welcome"></h1>
 
+<div class="grid">
+
 <div class="card">
-<h3>Total Score</h3>
+<h3>Calories</h3>
+<h2 id="calories">0</h2>
+<button onclick="addCalories()">+250 kcal</button>
+</div>
+
+<div class="card">
+<h3>Protein</h3>
+<h2 id="protein">0g</h2>
+<button onclick="addProtein()">+30g</button>
+</div>
+
+<div class="card">
+<h3>Workout Score</h3>
 <h2 id="score">0</h2>
-<button onclick="recordWorkout()">Complete Workout</button>
+<button onclick="workout()">Workout Done</button>
+</div>
+
+</div>
+</section>
+
+<section id="analytics" class="hidden">
+<div class="card">
+<canvas id="chart"></canvas>
 </div>
 </section>
 
 <section id="leaderboard" class="hidden">
 <div class="card">
-<h2>Global Leaderboard</h2>
-<div id="leaderboard"></div>
+<h2>🏆 Leaderboard</h2>
+<div id="leaders"></div>
 </div>
 </section>
 
@@ -84,17 +168,14 @@ getDoc,
 setDoc,
 updateDoc,
 collection,
-addDoc,
+getDocs,
 query,
 orderBy,
-limit,
-getDocs,
-serverTimestamp
+limit
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* ---------- INIT ---------- */
-
+/* Firebase */
 const firebaseConfig={
 apiKey:"AIzaSyCssNzQ3FeQ4reaEQTzGgpVbp9Igahn-KA",
 authDomain:"gym-coaching-app.firebaseapp.com",
@@ -109,23 +190,17 @@ const auth=getAuth(appFirebase);
 const db=getFirestore(appFirebase);
 
 let uid;
-let stats={score:0};
+let data={calories:0,protein:0,score:0,history:[]};
 
-/* ---------- NAV ---------- */
-
-window.nav=(p)=>{
-document.querySelectorAll("section")
+window.show=(id)=>{
+document.querySelectorAll("main section")
 .forEach(s=>s.classList.add("hidden"));
-document.getElementById(p).classList.remove("hidden");
+document.getElementById(id).classList.remove("hidden");
 };
-
-/* ---------- AUTH ---------- */
 
 window.login=()=>signInWithEmailAndPassword(auth,email.value,password.value);
 window.register=()=>createUserWithEmailAndPassword(auth,email.value,password.value);
 window.logout=()=>signOut(auth);
-
-/* ---------- SESSION ---------- */
 
 onAuthStateChanged(auth, async(user)=>{
 
@@ -144,67 +219,63 @@ welcome.innerText="Welcome "+user.email;
 const ref=doc(db,"users",uid);
 const snap=await getDoc(ref);
 
-if(!snap.exists()){
-await setDoc(ref,{score:0});
-}else{
-stats=snap.data();
+if(!snap.exists()) await setDoc(ref,data);
+else data=snap.data();
+
+render();
+createChart();
+loadLeaderboard();
+});
+
+async function save(){
+await updateDoc(doc(db,"users",uid),data);
+render();
+updateChart();
+loadLeaderboard();
 }
 
-render();
-loadLeaderboard();
-});
+window.addCalories=()=>{data.calories+=250;save();}
+window.addProtein=()=>{data.protein+=30;save();}
 
-/* ---------- EVENT SYSTEM ---------- */
-
-window.recordWorkout=async()=>{
-
-// EVENT WRITE (append-only)
-await addDoc(collection(db,"workout_events"),{
-userId:uid,
-type:"WORKOUT_COMPLETED",
-scoreGain:10,
-createdAt:serverTimestamp()
-});
-
-// AGGREGATE UPDATE
-stats.score+=10;
-
-await updateDoc(doc(db,"users",uid),stats);
-
-render();
-loadLeaderboard();
+window.workout=()=>{
+data.score+=10;
+data.history.push(data.score);
+save();
 };
 
-/* ---------- UI ---------- */
-
 function render(){
-score.innerText=stats.score;
+calories.innerText=data.calories;
+protein.innerText=data.protein+"g";
+score.innerText=data.score;
 }
 
-/* ---------- LEADERBOARD ---------- */
+let chart;
+
+function createChart(){
+chart=new Chart(chart,{
+type:"line",
+data:{
+labels:data.history.map((_,i)=>i+1),
+datasets:[{data:data.history,borderColor:"#22c55e"}]
+}
+});
+}
+
+function updateChart(){
+chart.data.labels=data.history.map((_,i)=>i+1);
+chart.data.datasets[0].data=data.history;
+chart.update();
+}
 
 async function loadLeaderboard(){
-
-leaderboard.innerHTML="Loading...";
-
-const q=query(
-collection(db,"users"),
-orderBy("score","desc"),
-limit(10)
-);
-
+leaders.innerHTML="Loading...";
+const q=query(collection(db,"users"),orderBy("score","desc"),limit(10));
 const snap=await getDocs(q);
 
-leaderboard.innerHTML="";
-
+leaders.innerHTML="";
 let i=1;
-
 snap.forEach(d=>{
-leaderboard.innerHTML+=`
-<div class="rank">
-<span>#${i++}</span>
-<span>${d.data().score}</span>
-</div>`;
+leaders.innerHTML+=`<div class="rank">#${i++} — ${d.data().score}</div>`;
 });
 }
 
