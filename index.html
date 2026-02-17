@@ -148,3 +148,27 @@ document.querySelectorAll(".reveal").forEach(el=>{
 
 </body>
 </html>
+<script>
+/* scroll reveal */
+const observer = new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("active");
+}
+});
+},{threshold:0.15});
+
+document.querySelectorAll(".reveal").forEach(el=>{
+observer.observe(el);
+});
+
+/* mouse glow follower */
+const glow = document.createElement("div");
+glow.className="cursorGlow";
+document.body.appendChild(glow);
+
+document.addEventListener("mousemove",e=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+});
+</script>
