@@ -1,82 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gym Coaching Dashboard</title>
+<title>Gym Coaching App</title>
+
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-<div class="toast" id="toast">Saved ✅</div>
-
-<div class="modal" id="loginModal">
-  <div class="modalBox">
-    <h2>Login</h2>
+<!-- LOGIN -->
+<div id="loginScreen" class="centerScreen">
+  <div class="loginCard">
+    <h2>Gym Coaching</h2>
     <input id="email" placeholder="Email">
-    <input placeholder="Password">
-    <button class="btn" onclick="login()">Login</button>
+    <input placeholder="Password" type="password">
+    <button onclick="login()">Enter Dashboard</button>
   </div>
 </div>
 
-<div class="container">
+<div id="app" class="hidden">
 
-  <div class="sidebar">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
     <h2>🏋 Gym</h2>
+
     <button onclick="showPage('dashboard')">Dashboard</button>
     <button onclick="showPage('analytics')">Analytics</button>
     <button onclick="showPage('profile')">Profile</button>
+
+    <div class="spacer"></div>
+
     <button onclick="toggleTheme()">Theme</button>
     <button onclick="logout()">Logout</button>
-  </div>
+  </aside>
 
-  <div class="main">
+  <!-- MAIN -->
+  <main class="main">
 
-    <div id="dashboardPage">
+    <!-- DASHBOARD -->
+    <section id="dashboardPage">
       <h1>Welcome, <span id="username"></span> 👋</h1>
 
-      <div class="dashboardGrid">
+      <div class="grid">
 
         <div class="card">
           <h3>Daily Calories</h3>
           <h2 id="calories">0</h2>
-          <button class="btn" onclick="addCalories()">+250 kcal</button>
+          <button onclick="addCalories()">+250 kcal</button>
         </div>
 
         <div class="card">
-          <h3>Workout Status</h3>
-          <p>Push / Pull / Legs</p >
-          <p>Completed: 4 / 6 sessions</p >
+          <h3>Workout Progress</h3>
+          <p id="workoutText">0 / 6 sessions</p >
+          <div class="progressBar">
+            <div id="progressFill"></div>
+          </div>
+          <button onclick="completeWorkout()">Complete Workout</button>
         </div>
 
         <div class="card">
-          <h3>Protein Target</h3>
-          <p>180g daily goal</p >
-          <p>Current: 120g</p >
+          <h3>Protein Intake</h3>
+          <h2 id="protein">0g</h2>
+          <button onclick="addProtein()">+30g</button>
         </div>
 
       </div>
-    </div>
+    </section>
 
-    <div id="analyticsPage" style="display:none;">
-      <h1>Performance Analytics</h1>
+    <!-- ANALYTICS -->
+    <section id="analyticsPage" class="hidden">
+      <h1>Analytics</h1>
       <div class="card">
         <canvas id="chart"></canvas>
       </div>
-    </div>
+    </section>
 
-    <div id="profilePage" style="display:none;">
-      <h1>Profile Settings</h1>
+    <!-- PROFILE -->
+    <section id="profilePage" class="hidden">
+      <h1>Profile</h1>
       <div class="card">
-        <input id="nameInput" placeholder="Your Name">
-        <button class="btn" onclick="saveProfile()">Save</button>
+        <input id="nameInput" placeholder="Change username">
+        <button onclick="saveProfile()">Save</button>
       </div>
-    </div>
+    </section>
 
-  </div>
-
+  </main>
 </div>
 
 <script src="app.js"></script>
