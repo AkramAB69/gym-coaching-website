@@ -20,6 +20,7 @@ scroll-behavior:smooth;
 body{
 background:linear-gradient(180deg,#0b132b,#1c2541);
 color:white;
+overflow-x:hidden;
 }
 
 /* NAVBAR */
@@ -39,16 +40,18 @@ nav a{
 color:white;
 text-decoration:none;
 margin-left:25px;
-cursor:pointer;
+transition:.3s;
 }
 
-nav a:hover{color:#39ff14}
+nav a:hover{
+color:#39ff14;
+}
 
 /* HERO */
 
 .hero{
 text-align:center;
-padding:120px 20px;
+padding:130px 20px;
 }
 
 .btn{
@@ -62,12 +65,18 @@ box-shadow:0 0 20px #39ff14aa;
 transition:.3s;
 }
 
-.btn:hover{transform:scale(1.08)}
+.btn:hover{
+transform:scale(1.08);
+}
+
+/* SECTIONS */
 
 section{
-padding:90px 60px;
+padding:100px 60px;
 text-align:center;
 }
+
+/* CARDS */
 
 .cards{
 display:flex;
@@ -82,11 +91,18 @@ background:#ffffff12;
 padding:30px;
 border-radius:16px;
 width:280px;
-transition:.4s;
+opacity:0;
+transform:translateY(40px);
+transition:.7s ease;
+}
+
+.card.show{
+opacity:1;
+transform:translateY(0);
 }
 
 .card:hover{
-transform:translateY(-8px);
+transform:translateY(-10px) scale(1.03);
 box-shadow:0 0 20px #39ff1440;
 }
 
@@ -110,7 +126,30 @@ background:#ffffff15;
 color:white;
 }
 
-/* LOGIN MODAL */
+/* DASHBOARD */
+
+.dashboard{
+display:none;
+padding:100px 60px;
+text-align:center;
+}
+
+.dashboard-cards{
+display:flex;
+gap:30px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:40px;
+}
+
+.stat{
+background:#ffffff12;
+padding:30px;
+border-radius:16px;
+width:260px;
+}
+
+/* LOGIN */
 
 .modal{
 position:fixed;
@@ -130,29 +169,6 @@ padding:40px;
 border-radius:16px;
 width:320px;
 text-align:center;
-}
-
-/* DASHBOARD */
-
-.dashboard{
-display:none;
-padding:90px 60px;
-text-align:center;
-}
-
-.dashboard-cards{
-display:flex;
-gap:30px;
-flex-wrap:wrap;
-justify-content:center;
-margin-top:40px;
-}
-
-.stat{
-background:#ffffff12;
-padding:30px;
-border-radius:16px;
-width:260px;
 }
 
 footer{
@@ -177,7 +193,6 @@ opacity:.6;
 </div>
 </nav>
 
-<!-- HOME CONTENT -->
 <div id="homePage">
 
 <section class="hero" id="home">
@@ -187,57 +202,26 @@ opacity:.6;
 <button class="btn" onclick="openLogin()">Start Coaching</button>
 </section>
 
-<!-- PROGRAMS -->
 <section id="programs">
 <h2>Coaching Programs</h2>
 
 <div class="cards">
-<div class="card">
-<h3>Beginner</h3>
-<p>Learn correct form and build consistency.</p >
-</div>
-
-<div class="card">
-<h3>Muscle Building</h3>
-<p>Progressive overload & recovery tracking.</p >
-</div>
-
-<div class="card">
-<h3>Fat Loss</h3>
-<p>Training and nutrition tailored to lifestyle.</p >
-</div>
+<div class="card"><h3>Beginner</h3><p>Build consistency and master form.</p ></div>
+<div class="card"><h3>Muscle Building</h3><p>Progressive overload & recovery tracking.</p ></div>
+<div class="card"><h3>Fat Loss</h3><p>Training and nutrition tailored to lifestyle.</p ></div>
 </div>
 </section>
 
-<!-- PRICING -->
 <section id="pricing">
 <h2>Pricing Plans</h2>
 
 <div class="cards">
-<div class="card">
-<h3>Starter</h3>
-<h2 style="color:#39ff14">$49</h2>
-<p>Email support</p >
-<p>Weekly check-in</p >
-</div>
-
-<div class="card">
-<h3>Pro</h3>
-<h2 style="color:#39ff14">$99</h2>
-<p>Custom workouts</p >
-<p>Nutrition guidance</p >
-</div>
-
-<div class="card">
-<h3>Elite</h3>
-<h2 style="color:#39ff14">$149</h2>
-<p>1-on-1 coaching</p >
-<p>Weekly calls</p >
-</div>
+<div class="card"><h3>Starter</h3><h2 style="color:#39ff14">$49</h2><p>Email support</p ></div>
+<div class="card"><h3>Pro</h3><h2 style="color:#39ff14">$99</h2><p>Custom workouts</p ></div>
+<div class="card"><h3>Elite</h3><h2 style="color:#39ff14">$149</h2><p>1-on-1 coaching</p ></div>
 </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
 <h2>Contact</h2>
 
@@ -262,33 +246,18 @@ opacity:.6;
 </div>
 
 <!-- DASHBOARD -->
-<div id="dashboard" class="dashboard">
 
+<div id="dashboard" class="dashboard">
 <h1>Your Training Dashboard</h1>
-<p>Welcome back Athlete 👋</p >
 
 <div class="dashboard-cards">
-
-<div class="stat">
-<h3>Weekly Plan</h3>
-<p>Push • Pull • Legs active</p >
-</div>
-
-<div class="stat">
-<h3>Progress Tracking</h3>
-<p>+3kg strength improvement</p >
-</div>
-
-<div class="stat">
-<h3>Nutrition Target</h3>
-<p>2400 kcal • 180g protein</p >
-</div>
-
+<div class="stat"><h3>Weekly Plan</h3><p>Push • Pull • Legs</p ></div>
+<div class="stat"><h3>Progress</h3><p>+3kg strength</p ></div>
+<div class="stat"><h3>Nutrition</h3><p>2400 kcal • 180g protein</p ></div>
 </div>
 
 <br><br>
 <button class="btn" onclick="logout()">Logout</button>
-
 </div>
 
 <footer>
@@ -296,6 +265,7 @@ opacity:.6;
 </footer>
 
 <!-- LOGIN -->
+
 <div class="modal" id="loginModal">
 <div class="modal-content">
 <h2>Member Login</h2>
@@ -308,6 +278,7 @@ opacity:.6;
 
 <script>
 
+/* LOGIN FLOW */
 function openLogin(){
 document.getElementById("loginModal").style.display="flex";
 }
@@ -322,6 +293,19 @@ function logout(){
 document.getElementById("dashboard").style.display="none";
 document.getElementById("homePage").style.display="block";
 }
+
+/* SCROLL ANIMATION */
+const observer = new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show");
+}
+});
+},{threshold:0.2});
+
+document.querySelectorAll('.card').forEach(el=>{
+observer.observe(el);
+});
 
 </script>
 
