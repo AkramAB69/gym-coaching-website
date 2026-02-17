@@ -15,31 +15,26 @@ background:#0f172a;
 color:white;
 }
 
-/* layout */
-.sidebar{
-position:fixed;
-width:230px;
+/* LOGIN */
+.center{
 height:100vh;
-background:#020617;
-padding:20px;
-}
-
-.main{
-margin-left:250px;
-padding:30px;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 .card{
 background:#1e293b;
-padding:20px;
+padding:22px;
 border-radius:12px;
-margin-bottom:20px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
+input{
+width:100%;
+padding:10px;
+margin-top:8px;
+border-radius:6px;
+border:none;
 }
 
 button{
@@ -53,26 +48,29 @@ color:white;
 cursor:pointer;
 }
 
-input{
-width:100%;
-padding:10px;
-margin-top:8px;
-border-radius:6px;
-border:none;
-}
-
-.hidden{display:none;}
-
-.center{
+/* APP */
+.sidebar{
+position:fixed;
+width:220px;
 height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
+background:#020617;
+padding:20px;
 }
+
+.main{
+margin-left:240px;
+padding:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.hidden{display:none}
 
 .rank{
-display:flex;
-justify-content:space-between;
 padding:6px 0;
 border-bottom:1px solid #334155;
 }
@@ -168,14 +166,14 @@ getDoc,
 setDoc,
 updateDoc,
 collection,
-getDocs,
 query,
 orderBy,
-limit
+limit,
+getDocs
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* Firebase */
+/* FIREBASE */
 const firebaseConfig={
 apiKey:"AIzaSyCssNzQ3FeQ4reaEQTzGgpVbp9Igahn-KA",
 authDomain:"gym-coaching-app.firebaseapp.com",
