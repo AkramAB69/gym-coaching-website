@@ -1,107 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gym Coaching Web App</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gym Coaching</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0f172a;
-      color: white;
-    }
+<link rel="stylesheet" href="style.css">
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      padding: 20px 40px;
-      background: #020617;
-    }
+<style>
+html {
+  scroll-behavior: smooth;
+}
+</style>
 
-    nav a {
-      color: white;
-      margin-left: 20px;
-      text-decoration: none;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 100px 20px;
-      background: linear-gradient(135deg,#020617,#0f172a);
-    }
-
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      max-width: 600px;
-      margin: auto;
-      opacity: 0.8;
-    }
-
-    .btn {
-      margin-top: 25px;
-      padding: 14px 28px;
-      background: #22c55e;
-      border: none;
-      border-radius: 8px;
-      color: black;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .section {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .cards {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-
-    .card {
-      background: #1e293b;
-      padding: 25px;
-      border-radius: 12px;
-      width: 260px;
-    }
-
-    .price {
-      font-size: 28px;
-      color: #22c55e;
-      margin: 15px 0;
-    }
-
-    footer {
-      text-align: center;
-      padding: 40px;
-      opacity: 0.7;
-    }
-  </style>
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <header>
-  <h2>Gym Coaching</h2>
-  <nav>
-    <a href=" ">Home</a >
-    <a href="#features">Programs</a >
-    <a href="#pricing">Pricing</a >
+  <nav class="navbar">
+    <h2>Gym Coaching</h2>
+    <div>
+      <a href=" ">Home</a >
+      <a href="#programs">Programs</a >
+      <a href="#pricing">Pricing</a >
+      <a href="#contact">Contact</a >
+    </div>
   </nav>
 </header>
 
-<section class="hero">
+<!-- HERO -->
+<section id="home" class="hero">
   <h1>Full-Stack Fitness Coaching Web Application</h1>
   <p>
     Portfolio project demonstrating responsive frontend design
@@ -110,10 +40,11 @@
   <a href="#pricing" class="btn">View Plans</a >
 </section>
 
-<section id="features" class="section">
+<!-- PROGRAMS -->
+<section id="programs" class="section">
   <h2>Coaching Programs</h2>
 
-  <div class="cards">
+  <div class="card-container">
     <div class="card">
       <h3>Beginner</h3>
       <p>Learn correct form, build consistency and avoid injuries.</p >
@@ -131,45 +62,77 @@
   </div>
 </section>
 
+<!-- PRICING -->
 <section id="pricing" class="section">
   <h2>Pricing Plans</h2>
 
-  <div class="cards">
+  <div class="card-container">
+
     <div class="card">
       <h3>Starter</h3>
-      <div class="price">$49 / month</div>
+      <h2>$49 / month</h2>
       <p>Email support<br>Weekly check-in</p >
       <button class="btn">Get Started</button>
     </div>
 
     <div class="card">
       <h3>Pro</h3>
-      <div class="price">$99 / month</div>
+      <h2>$99 / month</h2>
       <p>Custom workouts<br>Nutrition guidance<br>24/7 support</p >
       <button class="btn">Join Pro</button>
     </div>
 
     <div class="card">
       <h3>Elite</h3>
-      <div class="price">$149 / month</div>
+      <h2>$149 / month</h2>
       <p>1-on-1 coaching<br>Weekly calls<br>Full lifestyle plan</p >
       <button class="btn">Join Elite</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <h2>Contact</h2>
+
+  <div class="contact-box">
+    <p>Email: coach@email.com</p >
+    <p>Instagram: @gymcoach</p >
+
+    <input type="text" placeholder="Your name">
+    <input type="email" placeholder="Your email">
+    <textarea placeholder="Your message"></textarea>
+
+    <button class="btn">Send Message</button>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="section">
+  <h2>Your Training Dashboard</h2>
+
+  <div class="card-container">
+    <div class="card">
+      <h3>Weekly Plan</h3>
+      <p>Push • Pull • Legs training structure with progressive overload.</p >
+    </div>
+
+    <div class="card">
+      <h3>Progress Tracking</h3>
+      <p>Track weight, strength and performance improvements weekly.</p >
+    </div>
+
+    <div class="card">
+      <h3>Nutrition Target</h3>
+      <p>Daily calories: 2400 kcal<br>Protein goal: 180g</p >
     </div>
   </div>
 </section>
 
 <footer>
-  © 2026 Gym Coaching — Portfolio Project
+  <p>© 2026 Gym Coaching. All rights reserved.</p >
 </footer>
 
 </body>
 </html>
-<script>
-  const buttons = document.querySelectorAll(".btn");
-
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      alert("Feature coming soon 🚀 This project is under active development.");
-    });
-  });
-</script>
