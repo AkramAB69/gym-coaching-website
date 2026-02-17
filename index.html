@@ -5,78 +5,100 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gym Coaching App</title>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
+
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
-background:linear-gradient(180deg,#081020,#0f2347);
+background:#0b132b;
 color:white;
+transition:.3s;
 }
 
-/* NAV */
-nav{
-display:flex;
-justify-content:space-between;
-padding:20px 60px;
-background:rgba(10,15,30,.8);
+/* LIGHT MODE */
+body.light{
+background:#f4f6f8;
+color:#111;
 }
-nav a{margin-left:25px;cursor:pointer}
+
+/* LAYOUT */
+.container{display:flex;min-height:100vh;}
+
+.sidebar{
+width:220px;
+background:#050a1c;
+padding:25px;
+display:flex;
+flex-direction:column;
+}
+
+.sidebar button{
+margin:8px 0;
+padding:10px;
+border:none;
+background:#1c2541;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+.sidebar button:hover{
+background:#39ff14;
+color:black;
+}
+
+.main{
+flex:1;
+padding:35px;
+}
+
+/* CARDS */
+.card{
+background:#1c2541;
+padding:25px;
+border-radius:14px;
+margin:12px;
+}
+
+body.light .card{
+background:white;
+box-shadow:0 0 10px #00000020;
+}
 
 /* BUTTON */
 .btn{
 background:linear-gradient(45deg,#39ff14,#00ffa6);
 border:none;
-padding:12px 24px;
-border-radius:10px;
+padding:10px 18px;
+border-radius:8px;
 font-weight:bold;
 cursor:pointer;
+margin-top:10px;
 }
 
-/* HERO */
-.hero{text-align:center;padding:100px 20px;}
-.section{text-align:center;padding:60px 10%;}
-
-/* DASHBOARD */
-#dashboard{display:none;padding:60px 10%;}
-
-.card{
-background:rgba(255,255,255,.08);
-padding:25px;
-border-radius:14px;
-margin:15px;
-display:inline-block;
-width:260px;
-}
-
-.progress{
-background:#ffffff22;
-height:12px;
+/* TOAST */
+.toast{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#39ff14;
+color:black;
+padding:14px;
 border-radius:10px;
-overflow:hidden;
-margin-top:10px;
+opacity:0;
+transition:.4s;
 }
 
-.bar{
-height:100%;
-background:linear-gradient(90deg,#39ff14,#00ffa6);
-width:0%;
-transition:1s;
-}
-
-/* CALORIE TRACKER */
-.counter{
-font-size:28px;
-color:#39ff14;
-margin-top:10px;
-}
-
+/* LOGIN */
 .modal{
 position:fixed;
 inset:0;
 display:none;
 align-items:center;
 justify-content:center;
-background:#000000cc;
+background:#000000aa;
 }
 
 .modalBox{
@@ -90,147 +112,171 @@ input{
 width:100%;
 padding:10px;
 margin-top:10px;
-border-radius:8px;
+border-radius:6px;
 border:none;
 }
+
+/* MOBILE */
+@media(max-width:800px){
+.container{flex-direction:column;}
+.sidebar{width:100%;flex-direction:row;overflow:auto;}
+}
+
 </style>
 </head>
 
 <body>
 
-<nav>
-<h2>Gym Coaching</h2>
-<div>
-<a onclick="goHome()">Home</a >
-<a onclick="openLogin()" id="loginBtn">Login</a >
-<a onclick="goDashboard()" id="dashBtn" style="display:none;">Dashboard</a >
-<a onclick="logout()" id="logoutBtn" style="display:none;">Logout</a >
-</div>
-</nav>
-
-<!-- HOME -->
-<div id="home">
-
-<section class="hero">
-<h1>Fitness Coaching Web Application</h1>
-<p>Interactive dashboard experience.</p >
-<br>
-<button class="btn" onclick="openLogin()">Start Coaching</button>
-</section>
-
-</div>
-
-<!-- DASHBOARD -->
-<div id="dashboard">
-
-<h1>Welcome back, <span id="username">Athlete</span> 👋</h1>
-
-<div class="card">
-<h3>Workout Completion</h3>
-<div class="progress"><div id="workoutBar" class="bar"></div></div>
-</div>
-
-<div class="card">
-<h3>Strength Progress</h3>
-<div class="progress"><div id="strengthBar" class="bar"></div></div>
-</div>
-
-<div class="card">
-<h3>Calories Today</h3>
-<div class="counter" id="calories">0</div>
-<br>
-<button class="btn" onclick="addCalories()">+250 kcal</button>
-</div>
-
-<br><br>
-<button class="btn" onclick="logout()">Logout</button>
-
-</div>
+<div class="toast" id="toast">Saved ✅</div>
 
 <!-- LOGIN -->
 <div class="modal" id="loginModal">
 <div class="modalBox">
 <h3>Login</h3>
 <input id="email" placeholder="Email">
-<input type="password" placeholder="Password">
+<input placeholder="Password">
 <br><br>
 <button class="btn" onclick="login()">Login</button>
 </div>
 </div>
 
+<div class="container">
+
+<div class="sidebar">
+<h2>🏋 Gym</h2>
+<button onclick="showPage('dashboard')">Dashboard</button>
+<button onclick="showPage('analytics')">Analytics</button>
+<button onclick="showPage('profile')">Profile</button>
+<button onclick="toggleTheme()">Theme</button>
+<button onclick="logout()">Logout</button>
+</div>
+
+<div class="main">
+
+<!-- DASHBOARD -->
+<div id="dashboardPage">
+<h1>Welcome, <span id="username"></span> 👋</h1>
+
+<div class="card">
+<h3>Daily Calories</h3>
+<h2 id="calories">0</h2>
+<button class="btn" onclick="addCalories()">+250 kcal</button>
+</div>
+</div>
+
+<!-- ANALYTICS -->
+<div id="analyticsPage" style="display:none;">
+<h1>Performance Analytics</h1>
+
+<div class="card">
+<canvas id="chart"></canvas>
+</div>
+
+</div>
+
+<!-- PROFILE -->
+<div id="profilePage" style="display:none;">
+<h1>Profile Settings</h1>
+
+<div class="card">
+<input id="nameInput" placeholder="Your Name">
+<button class="btn" onclick="saveProfile()">Save Profile</button>
+</div>
+
+</div>
+
+</div>
+</div>
+
 <script>
 
-/* SESSION */
-function setUser(name){
-localStorage.setItem("gymUser",name);
-updateUI();
-}
-
-function logout(){
-localStorage.removeItem("gymUser");
-updateUI();
-goHome();
-}
-
-function updateUI(){
-let user=localStorage.getItem("gymUser");
-
-if(user){
-document.getElementById("username").textContent=user;
-loginBtn.style.display="none";
-dashBtn.style.display="inline";
-logoutBtn.style.display="inline";
-animateDashboard();
-}else{
-loginBtn.style.display="inline";
-dashBtn.style.display="none";
-logoutBtn.style.display="none";
-}
-}
-
 /* LOGIN */
-function openLogin(){
-loginModal.style.display="flex";
-}
-
 function login(){
 let email=document.getElementById("email").value;
 if(!email)return;
 
-setUser(email.split("@")[0]);
+localStorage.setItem("gymUser",email.split("@")[0]);
+updateUI();
 loginModal.style.display="none";
-goDashboard();
+initChart();
+}
+
+function logout(){
+localStorage.clear();
+location.reload();
+}
+
+function updateUI(){
+let user=localStorage.getItem("gymUser");
+if(!user){
+loginModal.style.display="flex";
+}else{
+document.getElementById("username").textContent=user;
+}
 }
 
 /* NAVIGATION */
-function goDashboard(){
-home.style.display="none";
-dashboard.style.display="block";
+function showPage(page){
+dashboardPage.style.display="none";
+analyticsPage.style.display="none";
+profilePage.style.display="none";
+document.getElementById(page+"Page").style.display="block";
 }
 
-function goHome(){
-dashboard.style.display="none";
-home.style.display="block";
-}
+/* CALORIES */
+let kcal=Number(localStorage.getItem("kcal")||0);
+document.getElementById("calories").innerText=kcal;
 
-/* DASHBOARD ANIMATION */
-function animateDashboard(){
-setTimeout(()=>{
-document.getElementById("workoutBar").style.width="75%";
-document.getElementById("strengthBar").style.width="60%";
-},300);
-}
-
-/* CALORIE TRACKER */
-let kcal=0;
 function addCalories(){
 kcal+=250;
+localStorage.setItem("kcal",kcal);
 document.getElementById("calories").innerText=kcal;
+notify();
 }
 
-/* AUTO LOGIN */
+/* PROFILE */
+function saveProfile(){
+let name=document.getElementById("nameInput").value;
+if(!name)return;
+localStorage.setItem("gymUser",name);
 updateUI();
-if(localStorage.getItem("gymUser")) goDashboard();
+notify();
+}
+
+/* TOAST */
+function notify(){
+let t=document.getElementById("toast");
+t.style.opacity=1;
+setTimeout(()=>t.style.opacity=0,2000);
+}
+
+/* THEME */
+function toggleTheme(){
+document.body.classList.toggle("light");
+}
+
+/* CHART */
+function initChart(){
+const ctx=document.getElementById('chart');
+if(!ctx) return;
+
+new Chart(ctx,{
+type:'line',
+data:{
+labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+datasets:[{
+label:'Strength Progress',
+data:[40,45,50,55,60,65,70],
+borderColor:'#39ff14',
+tension:.4
+}]
+}
+});
+}
+
+/* INIT */
+updateUI();
+if(localStorage.getItem("gymUser")) initChart();
 
 </script>
 
