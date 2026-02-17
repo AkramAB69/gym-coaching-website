@@ -5,93 +5,86 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gym Coaching App</title>
 
-<link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 body{
-  margin:0;
-  font-family:Arial;
-  background:#0f172a;
-  color:white;
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:white;
 }
 
-.centerScreen{
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.loginCard{
-  background:#1e293b;
-  padding:30px;
-  border-radius:12px;
-  width:280px;
-  text-align:center;
-}
-
-input{
-  width:100%;
-  padding:10px;
-  margin:8px 0;
-  border-radius:6px;
-  border:none;
-}
-
-button{
-  background:#22c55e;
-  border:none;
-  padding:10px;
-  color:white;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.hidden{ display:none; }
-
-.sidebar{
-  width:220px;
-  background:#020617;
-  height:100vh;
-  position:fixed;
-  padding:20px;
-}
-
-.sidebar button{
-  width:100%;
-  margin:8px 0;
-}
-
-.main{
-  margin-left:240px;
-  padding:30px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
+/* LOGIN */
+.center{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 .card{
-  background:#1e293b;
-  padding:20px;
-  border-radius:12px;
+background:#1e293b;
+padding:25px;
+border-radius:12px;
 }
 
-.progressBar{
-  background:#334155;
-  height:10px;
-  border-radius:6px;
-  margin:10px 0;
+input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:none;
+border-radius:6px;
 }
 
-#progressFill{
-  background:#22c55e;
-  height:100%;
-  width:0%;
-  border-radius:6px;
+button{
+background:#22c55e;
+border:none;
+padding:10px;
+border-radius:6px;
+color:white;
+cursor:pointer;
+}
+
+.hidden{display:none}
+
+/* APP */
+.sidebar{
+position:fixed;
+width:220px;
+height:100vh;
+background:#020617;
+padding:20px;
+}
+
+.sidebar button{
+width:100%;
+margin:6px 0;
+}
+
+.main{
+margin-left:240px;
+padding:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.progress{
+background:#334155;
+height:10px;
+border-radius:6px;
+margin:10px 0;
+}
+
+.fill{
+height:100%;
+background:#22c55e;
+width:0%;
+border-radius:6px;
 }
 </style>
 </head>
@@ -99,13 +92,13 @@ button{
 <body>
 
 <!-- LOGIN -->
-<div id="loginScreen" class="centerScreen">
-  <div class="loginCard">
-    <h2>Gym Coaching</h2>
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="loginUser()">Enter Dashboard</button>
-  </div>
+<div id="login" class="center">
+<div class="card">
+<h2>Gym Coaching</h2>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+</div>
 </div>
 
 <!-- APP -->
@@ -114,56 +107,48 @@ button{
 <aside class="sidebar">
 <h2>🏋 Gym</h2>
 
-<button onclick="showPage('dashboard')">Dashboard</button>
-<button onclick="showPage('analytics')">Analytics</button>
-<button onclick="showPage('profile')">Profile</button>
-
-<br><br>
-<button onclick="logoutUser()">Logout</button>
+<button onclick="page('dashboard')">Dashboard</button>
+<button onclick="page('analytics')">Analytics</button>
+<button onclick="logout()">Logout</button>
 </aside>
 
 <main class="main">
 
-<section id="dashboardPage">
-<h1>Welcome 👋</h1>
+<!-- DASHBOARD -->
+<section id="dashboard">
+<h1>Dashboard</h1>
 
 <div class="grid">
 
 <div class="card">
-<h3>Daily Calories</h3>
+<h3>Calories</h3>
 <h2 id="calories">0</h2>
-<button onclick="addCalories()">+250 kcal</button>
+<button onclick="addCalories()">+250</button>
 </div>
 
 <div class="card">
-<h3>Workout Progress</h3>
-<p id="workoutText">0 / 6 sessions</p >
-<div class="progressBar">
-<div id="progressFill"></div>
-</div>
-<button onclick="completeWorkout()">Complete Workout</button>
-</div>
-
-<div class="card">
-<h3>Protein Intake</h3>
+<h3>Protein</h3>
 <h2 id="protein">0g</h2>
 <button onclick="addProtein()">+30g</button>
 </div>
 
+<div class="card">
+<h3>Workout Progress</h3>
+<p id="workoutText">0 / 6</p >
+<div class="progress">
+<div id="progressFill" class="fill"></div>
+</div>
+<button onclick="addWorkout()">Complete</button>
+</div>
+
 </div>
 </section>
 
-<section id="analyticsPage" class="hidden">
+<!-- ANALYTICS -->
+<section id="analytics" class="hidden">
 <h1>Analytics</h1>
 <div class="card">
 <canvas id="chart"></canvas>
-</div>
-</section>
-
-<section id="profilePage" class="hidden">
-<h1>Profile</h1>
-<div class="card">
-<input placeholder="Change username">
 </div>
 </section>
 
@@ -172,83 +157,148 @@ button{
 
 <!-- APP LOGIC -->
 <script>
-
-let calories=0;
-let protein=0;
-let workouts=0;
-
-function addCalories(){
- calories+=250;
- document.getElementById("calories").innerText=calories;
+function page(name){
+document.querySelectorAll("main section")
+.forEach(s=>s.classList.add("hidden"));
+document.getElementById(name).classList.remove("hidden");
 }
-
-function addProtein(){
- protein+=30;
- document.getElementById("protein").innerText=protein+"g";
-}
-
-function completeWorkout(){
- workouts++;
- document.getElementById("workoutText").innerText=workouts+" / 6 sessions";
- document.getElementById("progressFill").style.width=(workouts/6*100)+"%";
-}
-
-function showPage(page){
- document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
- document.getElementById(page+"Page").classList.remove("hidden");
-}
-
 </script>
 
-<!-- FIREBASE -->
+<!-- FIREBASE SYSTEM -->
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
 getAuth,
 signInWithEmailAndPassword,
 signOut,
 onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+import {
+getFirestore,
+doc,
+getDoc,
+setDoc,
+updateDoc
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* CONFIG */
 const firebaseConfig = {
-apiKey: "AIzaSyCssNzQ3FeQ4reaEQTzGgpVbp9Igahn-KA",
-authDomain: "gym-coaching-app.firebaseapp.com",
-projectId: "gym-coaching-app",
-storageBucket: "gym-coaching-app.firebasestorage.app",
-messagingSenderId: "924789843595",
-appId: "1:924789843595:web:08e2d7e588123bc407168e",
-measurementId: "G-XVT3RDF2SH"
+apiKey:"AIzaSyCssNzQ3FeQ4reaEQTzGgpVbp9Igahn-KA",
+authDomain:"gym-coaching-app.firebaseapp.com",
+projectId:"gym-coaching-app",
+storageBucket:"gym-coaching-app.firebasestorage.app",
+messagingSenderId:"924789843595",
+appId:"1:924789843595:web:08e2d7e588123bc407168e"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-window.loginUser = function(){
-const email=document.getElementById("email").value;
-const password=document.getElementById("password").value;
+let userRef;
+let userData={calories:0,protein:0,workouts:0};
+
+/* LOGIN */
+window.login=()=>{
+const email=emailInput.value;
+const password=passwordInput.value;
 
 signInWithEmailAndPassword(auth,email,password)
-.then(()=>{
-document.getElementById("loginScreen").classList.add("hidden");
-document.getElementById("app").classList.remove("hidden");
-})
 .catch(()=>alert("Login failed"));
 };
 
-window.logoutUser=function(){
-signOut(auth);
+/* LOGOUT */
+window.logout=()=>signOut(auth);
+
+/* AUTH STATE */
+onAuthStateChanged(auth, async(user)=>{
+if(!user){
+login.classList.remove("hidden");
+app.classList.add("hidden");
+return;
+}
+
+login.classList.add("hidden");
+app.classList.remove("hidden");
+
+userRef=doc(db,"users",user.uid);
+
+const snap=await getDoc(userRef);
+
+if(!snap.exists()){
+await setDoc(userRef,userData);
+}else{
+userData=snap.data();
+}
+
+render();
+createChart();
+});
+
+/* SAVE */
+async function save(){
+await updateDoc(userRef,userData);
+render();
+updateChart();
+}
+
+/* ACTIONS */
+window.addCalories=()=>{
+userData.calories+=250;
+save();
 };
 
-onAuthStateChanged(auth,(user)=>{
-if(user){
-document.getElementById("loginScreen").classList.add("hidden");
-document.getElementById("app").classList.remove("hidden");
-}else{
-document.getElementById("loginScreen").classList.remove("hidden");
-document.getElementById("app").classList.add("hidden");
+window.addProtein=()=>{
+userData.protein+=30;
+save();
+};
+
+window.addWorkout=()=>{
+userData.workouts++;
+save();
+};
+
+/* UI */
+function render(){
+calories.innerText=userData.calories;
+protein.innerText=userData.protein+"g";
+workoutText.innerText=userData.workouts+" / 6";
+progressFill.style.width=(userData.workouts/6*100)+"%";
+}
+
+/* CHART */
+let chart;
+
+function createChart(){
+chart=new Chart(chartCanvas,{
+type:"bar",
+data:{
+labels:["Calories","Protein","Workouts"],
+datasets:[{
+data:[
+userData.calories,
+userData.protein,
+userData.workouts
+]
+}]
 }
 });
+}
+
+function updateChart(){
+chart.data.datasets[0].data=[
+userData.calories,
+userData.protein,
+userData.workouts
+];
+chart.update();
+}
 
 </script>
 
