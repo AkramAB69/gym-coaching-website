@@ -22,7 +22,7 @@ background:linear-gradient(180deg,#0b132b,#1c2541);
 color:white;
 }
 
-/* NAV */
+/* NAVBAR */
 
 nav{
 display:flex;
@@ -32,12 +32,13 @@ background:#0b132bee;
 position:sticky;
 top:0;
 backdrop-filter:blur(10px);
+z-index:10;
 }
 
 nav a{
 color:white;
 text-decoration:none;
-margin-left:20px;
+margin-left:25px;
 cursor:pointer;
 }
 
@@ -53,7 +54,7 @@ padding:120px 20px;
 .btn{
 background:#39ff14;
 border:none;
-padding:14px 30px;
+padding:14px 28px;
 border-radius:12px;
 font-weight:600;
 cursor:pointer;
@@ -61,11 +62,7 @@ box-shadow:0 0 20px #39ff14aa;
 transition:.3s;
 }
 
-.btn:hover{
-transform:scale(1.08);
-}
-
-/* SECTIONS */
+.btn:hover{transform:scale(1.08)}
 
 section{
 padding:90px 60px;
@@ -93,6 +90,26 @@ transform:translateY(-8px);
 box-shadow:0 0 20px #39ff1440;
 }
 
+/* CONTACT */
+
+.contact{
+display:flex;
+flex-wrap:wrap;
+gap:40px;
+justify-content:center;
+margin-top:40px;
+}
+
+input,textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+border:none;
+background:#ffffff15;
+color:white;
+}
+
 /* LOGIN MODAL */
 
 .modal{
@@ -115,21 +132,11 @@ width:320px;
 text-align:center;
 }
 
-input{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:10px;
-border:none;
-background:#ffffff15;
-color:white;
-}
-
 /* DASHBOARD */
 
 .dashboard{
 display:none;
-padding:80px 60px;
+padding:90px 60px;
 text-align:center;
 }
 
@@ -152,7 +159,6 @@ footer{
 text-align:center;
 padding:40px;
 opacity:.6;
-margin-top:60px;
 }
 
 </style>
@@ -163,21 +169,47 @@ margin-top:60px;
 <nav>
 <h2>Gym Coaching</h2>
 <div>
-<a onclick="showHome()">Home</a >
-<a href=" ">Pricing</a >
+<a href=" ">Home</a >
+<a href="#programs">Programs</a >
+<a href="#pricing">Pricing</a >
+<a href="#contact">Contact</a >
 <a onclick="openLogin()">Login</a >
 </div>
 </nav>
 
-<!-- HOME -->
-<div id="home">
+<!-- HOME CONTENT -->
+<div id="homePage">
 
-<section class="hero">
+<section class="hero" id="home">
 <h1>Full-Stack Fitness Coaching Web Application</h1>
 <p>Interactive coaching platform with client dashboard experience.</p >
+<br>
 <button class="btn" onclick="openLogin()">Start Coaching</button>
 </section>
 
+<!-- PROGRAMS -->
+<section id="programs">
+<h2>Coaching Programs</h2>
+
+<div class="cards">
+<div class="card">
+<h3>Beginner</h3>
+<p>Learn correct form and build consistency.</p >
+</div>
+
+<div class="card">
+<h3>Muscle Building</h3>
+<p>Progressive overload & recovery tracking.</p >
+</div>
+
+<div class="card">
+<h3>Fat Loss</h3>
+<p>Training and nutrition tailored to lifestyle.</p >
+</div>
+</div>
+</section>
+
+<!-- PRICING -->
 <section id="pricing">
 <h2>Pricing Plans</h2>
 
@@ -205,29 +237,51 @@ margin-top:60px;
 </div>
 </section>
 
+<!-- CONTACT -->
+<section id="contact">
+<h2>Contact</h2>
+
+<div class="contact">
+
+<div class="card">
+<p>Email: coach@email.com</p >
+<p>Instagram: @gymcoach</p >
+</div>
+
+<div class="card">
+<input placeholder="Your name">
+<input placeholder="Your email">
+<textarea placeholder="Your message"></textarea>
+<br><br>
+<button class="btn">Send Message</button>
+</div>
+
+</div>
+</section>
+
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="dashboard">
 
-<h1>Your Coaching Dashboard</h1>
-<p>Welcome back, Athlete 👋</p >
+<h1>Your Training Dashboard</h1>
+<p>Welcome back Athlete 👋</p >
 
 <div class="dashboard-cards">
 
 <div class="stat">
 <h3>Weekly Plan</h3>
-<p>Push • Pull • Legs program active</p >
+<p>Push • Pull • Legs active</p >
 </div>
 
 <div class="stat">
-<h3>Progress</h3>
+<h3>Progress Tracking</h3>
 <p>+3kg strength improvement</p >
 </div>
 
 <div class="stat">
-<h3>Nutrition</h3>
-<p>2400 kcal • 180g protein target</p >
+<h3>Nutrition Target</h3>
+<p>2400 kcal • 180g protein</p >
 </div>
 
 </div>
@@ -237,26 +291,22 @@ margin-top:60px;
 
 </div>
 
-<!-- LOGIN MODAL -->
+<footer>
+© 2026 Gym Coaching App — Portfolio Demo
+</footer>
+
+<!-- LOGIN -->
 <div class="modal" id="loginModal">
 <div class="modal-content">
 <h2>Member Login</h2>
-
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-
+<input placeholder="Email">
+<input type="password" placeholder="Password">
 <br><br>
 <button class="btn" onclick="login()">Login</button>
 </div>
 </div>
 
-<footer>
-© 2026 Gym Coaching App — Portfolio Demo
-</footer>
-
 <script>
-
-/* LOGIN SYSTEM (PORTFOLIO DEMO) */
 
 function openLogin(){
 document.getElementById("loginModal").style.display="flex";
@@ -264,18 +314,13 @@ document.getElementById("loginModal").style.display="flex";
 
 function login(){
 document.getElementById("loginModal").style.display="none";
-document.getElementById("home").style.display="none";
+document.getElementById("homePage").style.display="none";
 document.getElementById("dashboard").style.display="block";
 }
 
 function logout(){
 document.getElementById("dashboard").style.display="none";
-document.getElementById("home").style.display="block";
-}
-
-function showHome(){
-document.getElementById("dashboard").style.display="none";
-document.getElementById("home").style.display="block";
+document.getElementById("homePage").style.display="block";
 }
 
 </script>
