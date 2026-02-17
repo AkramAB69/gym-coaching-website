@@ -7,6 +7,93 @@
 
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0f172a;
+  color:white;
+}
+
+.centerScreen{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.loginCard{
+  background:#1e293b;
+  padding:30px;
+  border-radius:12px;
+  width:280px;
+  text-align:center;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:6px;
+  border:none;
+}
+
+button{
+  background:#22c55e;
+  border:none;
+  padding:10px;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.hidden{ display:none; }
+
+.sidebar{
+  width:220px;
+  background:#020617;
+  height:100vh;
+  position:fixed;
+  padding:20px;
+}
+
+.sidebar button{
+  width:100%;
+  margin:8px 0;
+}
+
+.main{
+  margin-left:240px;
+  padding:30px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#1e293b;
+  padding:20px;
+  border-radius:12px;
+}
+
+.progressBar{
+  background:#334155;
+  height:10px;
+  border-radius:6px;
+  margin:10px 0;
+}
+
+#progressFill{
+  background:#22c55e;
+  height:100%;
+  width:0%;
+  border-radius:6px;
+}
+</style>
 </head>
 
 <body>
@@ -16,103 +103,154 @@
   <div class="loginCard">
     <h2>Gym Coaching</h2>
     <input id="email" placeholder="Email">
-    <input placeholder="Password" type="password">
-    <button onclick="login()">Enter Dashboard</button>
+    <input id="password" type="password" placeholder="Password">
+    <button onclick="loginUser()">Enter Dashboard</button>
   </div>
 </div>
 
+<!-- APP -->
 <div id="app" class="hidden">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>🏋 Gym</h2>
+<aside class="sidebar">
+<h2>🏋 Gym</h2>
 
-    <button onclick="showPage('dashboard')">Dashboard</button>
-    <button onclick="showPage('analytics')">Analytics</button>
-    <button onclick="showPage('profile')">Profile</button>
+<button onclick="showPage('dashboard')">Dashboard</button>
+<button onclick="showPage('analytics')">Analytics</button>
+<button onclick="showPage('profile')">Profile</button>
 
-    <div class="spacer"></div>
+<br><br>
+<button onclick="logoutUser()">Logout</button>
+</aside>
 
-    <button onclick="toggleTheme()">Theme</button>
-    <button onclick="logout()">Logout</button>
-  </aside>
+<main class="main">
 
-  <!-- MAIN -->
-  <main class="main">
+<section id="dashboardPage">
+<h1>Welcome 👋</h1>
 
-    <!-- DASHBOARD -->
-    <section id="dashboardPage">
-      <h1>Welcome, <span id="username"></span> 👋</h1>
+<div class="grid">
 
-      <div class="grid">
-
-        <div class="card">
-          <h3>Daily Calories</h3>
-          <h2 id="calories">0</h2>
-          <button onclick="addCalories()">+250 kcal</button>
-        </div>
-
-        <div class="card">
-          <h3>Workout Progress</h3>
-          <p id="workoutText">0 / 6 sessions</p >
-          <div class="progressBar">
-            <div id="progressFill"></div>
-          </div>
-          <button onclick="completeWorkout()">Complete Workout</button>
-        </div>
-
-        <div class="card">
-          <h3>Protein Intake</h3>
-          <h2 id="protein">0g</h2>
-          <button onclick="addProtein()">+30g</button>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ANALYTICS -->
-    <section id="analyticsPage" class="hidden">
-      <h1>Analytics</h1>
-      <div class="card">
-        <canvas id="chart"></canvas>
-      </div>
-    </section>
-
-    <!-- PROFILE -->
-    <section id="profilePage" class="hidden">
-      <h1>Profile</h1>
-      <div class="card">
-        <input id="nameInput" placeholder="Change username">
-        <button onclick="saveProfile()">Save</button>
-      </div>
-    </section>
-
-  </main>
+<div class="card">
+<h3>Daily Calories</h3>
+<h2 id="calories">0</h2>
+<button onclick="addCalories()">+250 kcal</button>
 </div>
 
-<script src="app.js"></script>
+<div class="card">
+<h3>Workout Progress</h3>
+<p id="workoutText">0 / 6 sessions</p >
+<div class="progressBar">
+<div id="progressFill"></div>
+</div>
+<button onclick="completeWorkout()">Complete Workout</button>
+</div>
+
+<div class="card">
+<h3>Protein Intake</h3>
+<h2 id="protein">0g</h2>
+<button onclick="addProtein()">+30g</button>
+</div>
+
+</div>
+</section>
+
+<section id="analyticsPage" class="hidden">
+<h1>Analytics</h1>
+<div class="card">
+<canvas id="chart"></canvas>
+</div>
+</section>
+
+<section id="profilePage" class="hidden">
+<h1>Profile</h1>
+<div class="card">
+<input placeholder="Change username">
+</div>
+</section>
+
+</main>
+</div>
+
+<!-- APP LOGIC -->
+<script>
+
+let calories=0;
+let protein=0;
+let workouts=0;
+
+function addCalories(){
+ calories+=250;
+ document.getElementById("calories").innerText=calories;
+}
+
+function addProtein(){
+ protein+=30;
+ document.getElementById("protein").innerText=protein+"g";
+}
+
+function completeWorkout(){
+ workouts++;
+ document.getElementById("workoutText").innerText=workouts+" / 6 sessions";
+ document.getElementById("progressFill").style.width=(workouts/6*100)+"%";
+}
+
+function showPage(page){
+ document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+ document.getElementById(page+"Page").classList.remove("hidden");
+}
+
+</script>
+
+<!-- FIREBASE -->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+getAuth,
+signInWithEmailAndPassword,
+signOut,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyCssNzQ3FeQ4reaEQTzGgpVbp9Igahn-KA",
+authDomain: "gym-coaching-app.firebaseapp.com",
+projectId: "gym-coaching-app",
+storageBucket: "gym-coaching-app.firebasestorage.app",
+messagingSenderId: "924789843595",
+appId: "1:924789843595:web:08e2d7e588123bc407168e",
+measurementId: "G-XVT3RDF2SH"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.loginUser = function(){
+const email=document.getElementById("email").value;
+const password=document.getElementById("password").value;
+
+signInWithEmailAndPassword(auth,email,password)
+.then(()=>{
+document.getElementById("loginScreen").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+})
+.catch(()=>alert("Login failed"));
+};
+
+window.logoutUser=function(){
+signOut(auth);
+};
+
+onAuthStateChanged(auth,(user)=>{
+if(user){
+document.getElementById("loginScreen").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+}else{
+document.getElementById("loginScreen").classList.remove("hidden");
+document.getElementById("app").classList.add("hidden");
+}
+});
+
+</script>
+
 </body>
 </html>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCssNzQ3FeQ4reaEQTzGgpVbp9Igahn-KA",
-    authDomain: "gym-coaching-app.firebaseapp.com",
-    projectId: "gym-coaching-app",
-    storageBucket: "gym-coaching-app.firebasestorage.app",
-    messagingSenderId: "924789843595",
-    appId: "1:924789843595:web:08e2d7e588123bc407168e",
-    measurementId: "G-XVT3RDF2SH"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
