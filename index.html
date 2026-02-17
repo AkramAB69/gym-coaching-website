@@ -3,80 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gym Coaching FAANG Demo</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>Gym Coaching — Startup Architecture</title>
 
 <style>
-body{
-margin:0;
-font-family:system-ui;
-background:#0f172a;
-color:white;
-}
-
-.light{
-background:#f1f5f9;
-color:#111;
-}
-
+body{margin:0;font-family:system-ui;background:#0f172a;color:white}
 .hidden{display:none}
-
-.center{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-.card{
-background:#1e293b;
-padding:20px;
-border-radius:12px;
-margin-bottom:20px;
-}
-
-.light .card{background:white;}
-
-input,button{
-width:100%;
-padding:10px;
-margin-top:8px;
-border:none;
-border-radius:6px;
-}
-
-button{
-background:#22c55e;
-color:white;
-cursor:pointer;
-}
-
-.sidebar{
-position:fixed;
-width:230px;
-height:100vh;
-background:#020617;
-padding:20px;
-}
-
-.main{
-margin-left:250px;
-padding:30px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
-}
-
-.rank{
-display:flex;
-justify-content:space-between;
-padding:6px 0;
-border-bottom:1px solid #334155;
-}
+.center{height:100vh;display:flex;justify-content:center;align-items:center}
+.card{background:#1e293b;padding:20px;border-radius:12px;margin:12px}
+.sidebar{position:fixed;width:220px;height:100vh;background:#020617;padding:20px}
+.main{margin-left:240px;padding:30px}
+button,input{width:100%;padding:10px;margin-top:8px;border:none;border-radius:6px}
+button{background:#22c55e;color:white;cursor:pointer}
+.rank{display:flex;justify-content:space-between;padding:6px 0}
 </style>
 </head>
 
@@ -85,11 +23,11 @@ border-bottom:1px solid #334155;
 <!-- AUTH -->
 <div id="auth" class="center">
 <div class="card">
-<h2>Gym Coaching Pro</h2>
+<h2>Gym Coaching</h2>
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
-<button onclick="loginUser()">Login</button>
-<button onclick="registerUser()">Register</button>
+<button onclick="login()">Login</button>
+<button onclick="register()">Register</button>
 </div>
 </div>
 
@@ -97,12 +35,10 @@ border-bottom:1px solid #334155;
 <div id="app" class="hidden">
 
 <aside class="sidebar">
-<h2>🏋 Gym</h2>
-<button onclick="showPage('dashboard')">Dashboard</button>
-<button onclick="showPage('analytics')">Analytics</button>
-<button onclick="showPage('leaderboard')">Leaderboard</button>
-<button onclick="toggleTheme()">Theme</button>
-<button onclick="logoutUser()">Logout</button>
+<h2>🏋 System</h2>
+<button onclick="nav('dashboard')">Dashboard</button>
+<button onclick="nav('leaderboard')">Leaderboard</button>
+<button onclick="logout()">Logout</button>
 </aside>
 
 <main class="main">
@@ -110,39 +46,17 @@ border-bottom:1px solid #334155;
 <section id="dashboard">
 <h1 id="welcome"></h1>
 
-<div class="grid">
-
 <div class="card">
-<h3>Calories</h3>
-<h2 id="calories">0</h2>
-<button onclick="addCalories()">+250</button>
-</div>
-
-<div class="card">
-<h3>Protein</h3>
-<h2 id="protein">0g</h2>
-<button onclick="addProtein()">+30g</button>
-</div>
-
-<div class="card">
-<h3>Workout Score</h3>
+<h3>Total Score</h3>
 <h2 id="score">0</h2>
-<button onclick="addWorkout()">Workout Done</button>
-</div>
-
-</div>
-</section>
-
-<section id="analytics" class="hidden">
-<div class="card">
-<canvas id="chartCanvas"></canvas>
+<button onclick="recordWorkout()">Complete Workout</button>
 </div>
 </section>
 
 <section id="leaderboard" class="hidden">
 <div class="card">
-<h2>🏆 Global Leaderboard</h2>
-<div id="leaderboardList"></div>
+<h2>Global Leaderboard</h2>
+<div id="leaderboard"></div>
 </div>
 </section>
 
@@ -150,8 +64,6 @@ border-bottom:1px solid #334155;
 </div>
 
 <script type="module">
-
-/* ---------- FIREBASE ---------- */
 
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -172,12 +84,16 @@ getDoc,
 setDoc,
 updateDoc,
 collection,
-getDocs,
+addDoc,
 query,
 orderBy,
-limit
+limit,
+getDocs,
+serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* ---------- INIT ---------- */
 
 const firebaseConfig={
 apiKey:"AIzaSyCssNzQ3FeQ4reaEQTzGgpVbp9Igahn-KA",
@@ -192,30 +108,22 @@ const appFirebase=initializeApp(firebaseConfig);
 const auth=getAuth(appFirebase);
 const db=getFirestore(appFirebase);
 
-/* ---------- STATE ---------- */
-
-let userRef;
-let data={
-calories:0,
-protein:0,
-score:0,
-history:[],
-theme:"dark"
-};
+let uid;
+let stats={score:0};
 
 /* ---------- NAV ---------- */
 
-window.showPage=(p)=>{
-document.querySelectorAll("main section")
+window.nav=(p)=>{
+document.querySelectorAll("section")
 .forEach(s=>s.classList.add("hidden"));
 document.getElementById(p).classList.remove("hidden");
 };
 
 /* ---------- AUTH ---------- */
 
-window.loginUser=()=>signInWithEmailAndPassword(auth,email.value,password.value);
-window.registerUser=()=>createUserWithEmailAndPassword(auth,email.value,password.value);
-window.logoutUser=()=>signOut(auth);
+window.login=()=>signInWithEmailAndPassword(auth,email.value,password.value);
+window.register=()=>createUserWithEmailAndPassword(auth,email.value,password.value);
+window.logout=()=>signOut(auth);
 
 /* ---------- SESSION ---------- */
 
@@ -230,92 +138,54 @@ return;
 auth.style.display="none";
 app.classList.remove("hidden");
 
+uid=user.uid;
 welcome.innerText="Welcome "+user.email;
 
-userRef=doc(db,"users",user.uid);
-
-const snap=await getDoc(userRef);
+const ref=doc(db,"users",uid);
+const snap=await getDoc(ref);
 
 if(!snap.exists()){
-await setDoc(userRef,data);
+await setDoc(ref,{score:0});
 }else{
-data=snap.data();
+stats=snap.data();
 }
 
-applyTheme();
 render();
-createChart();
 loadLeaderboard();
 });
 
-/* ---------- SAVE ---------- */
+/* ---------- EVENT SYSTEM ---------- */
 
-async function save(){
-await updateDoc(userRef,data);
+window.recordWorkout=async()=>{
+
+// EVENT WRITE (append-only)
+await addDoc(collection(db,"workout_events"),{
+userId:uid,
+type:"WORKOUT_COMPLETED",
+scoreGain:10,
+createdAt:serverTimestamp()
+});
+
+// AGGREGATE UPDATE
+stats.score+=10;
+
+await updateDoc(doc(db,"users",uid),stats);
+
 render();
-updateChart();
 loadLeaderboard();
-}
-
-/* ---------- ACTIONS ---------- */
-
-window.addCalories=()=>{data.calories+=250;save();}
-window.addProtein=()=>{data.protein+=30;save();}
-
-window.addWorkout=()=>{
-data.score+=10;
-data.history.push(data.score);
-save();
 };
-
-/* ---------- THEME ---------- */
-
-window.toggleTheme=()=>{
-data.theme=data.theme==="dark"?"light":"dark";
-applyTheme();
-save();
-};
-
-function applyTheme(){
-document.body.classList.toggle("light",data.theme==="light");
-}
 
 /* ---------- UI ---------- */
 
 function render(){
-calories.innerText=data.calories;
-protein.innerText=data.protein+"g";
-score.innerText=data.score;
-}
-
-/* ---------- CHART ---------- */
-
-let chart;
-
-function createChart(){
-chart=new Chart(chartCanvas,{
-type:"line",
-data:{
-labels:data.history.map((_,i)=>"Session "+(i+1)),
-datasets:[{
-data:data.history,
-borderColor:"#22c55e"
-}]
-}
-});
-}
-
-function updateChart(){
-chart.data.labels=data.history.map((_,i)=>"Session "+(i+1));
-chart.data.datasets[0].data=data.history;
-chart.update();
+score.innerText=stats.score;
 }
 
 /* ---------- LEADERBOARD ---------- */
 
 async function loadLeaderboard(){
 
-leaderboardList.innerHTML="Loading...";
+leaderboard.innerHTML="Loading...";
 
 const q=query(
 collection(db,"users"),
@@ -325,15 +195,15 @@ limit(10)
 
 const snap=await getDocs(q);
 
-leaderboardList.innerHTML="";
+leaderboard.innerHTML="";
 
-snap.forEach((doc,i)=>{
-const user=doc.data();
+let i=1;
 
-leaderboardList.innerHTML+=`
+snap.forEach(d=>{
+leaderboard.innerHTML+=`
 <div class="rank">
-<span>#${i+1}</span>
-<span>${user.score || 0} pts</span>
+<span>#${i++}</span>
+<span>${d.data().score}</span>
 </div>`;
 });
 }
