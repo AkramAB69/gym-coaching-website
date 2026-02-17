@@ -1,3 +1,24 @@
+/* ===== GLOBAL LAYOUT FIX ===== */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #0b1220, #111c2f);
+    color: white;
+}
+
+/* MAIN PAGE CONTAINER */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* CENTER SECTIONS */
+section {
+    text-align: center;
+    margin-bottom: 80px;
+}
 /* ===== RESET ===== */
 * {
   margin: 0;
