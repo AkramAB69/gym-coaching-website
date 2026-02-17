@@ -1,282 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gym Coaching Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>Gym Coaching — Portfolio Project</title>
 
-<style>
-body{
-margin:0;
-font-family:system-ui;
-background:#0f172a;
-color:white;
-}
+<link rel="stylesheet" href="style.css">
 
-/* LOGIN */
-.center{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-.card{
-background:#1e293b;
-padding:22px;
-border-radius:12px;
-}
-
-input{
-width:100%;
-padding:10px;
-margin-top:8px;
-border-radius:6px;
-border:none;
-}
-
-button{
-width:100%;
-padding:10px;
-margin-top:10px;
-border:none;
-border-radius:6px;
-background:#22c55e;
-color:white;
-cursor:pointer;
-}
-
-/* APP */
-.sidebar{
-position:fixed;
-width:220px;
-height:100vh;
-background:#020617;
-padding:20px;
-}
-
-.main{
-margin-left:240px;
-padding:30px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
-}
-
-.hidden{display:none}
-
-.rank{
-padding:6px 0;
-border-bottom:1px solid #334155;
-}
-</style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-<div id="auth" class="center">
-<div class="card" style="width:320px">
-<h2>Gym Coaching</h2>
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
-<button onclick="register()">Register</button>
-</div>
-</div>
+<!-- NAVBAR -->
+<header class="navbar">
+  <h2>Gym Coaching</h2>
+  <nav>
+    <a href=" ">Home</a >
+    <a href="#programs">Programs</a >
+    <a href="#pricing">Pricing</a >
+    <a href="#contact">Contact</a >
+  </nav>
+</header>
 
-<!-- APP -->
-<div id="app" class="hidden">
+<!-- HERO -->
+<section id="home" class="hero">
+  <h1>Full-Stack Fitness Coaching Web Application</h1>
+  <p>
+    Portfolio project demonstrating responsive frontend design and coaching dashboard concepts.
+  </p >
 
-<aside class="sidebar">
-<h2>🏋 Dashboard</h2>
-<button onclick="show('dash')">Dashboard</button>
-<button onclick="show('analytics')">Analytics</button>
-<button onclick="show('leaderboard')">Leaderboard</button>
-<button onclick="logout()">Logout</button>
-</aside>
+  <button onclick="scrollToSection('pricing')">
+    View Plans
+  </button>
 
-<main class="main">
+  <div class="stats">
+    <div class="statCard">
+      <h3>3</h3>
+      <p>Programs</p >
+    </div>
 
-<section id="dash">
-<h1 id="welcome"></h1>
+    <div class="statCard">
+      <h3>3</h3>
+      <p>Pricing Tiers</p >
+    </div>
 
-<div class="grid">
-
-<div class="card">
-<h3>Calories</h3>
-<h2 id="calories">0</h2>
-<button onclick="addCalories()">+250 kcal</button>
-</div>
-
-<div class="card">
-<h3>Protein</h3>
-<h2 id="protein">0g</h2>
-<button onclick="addProtein()">+30g</button>
-</div>
-
-<div class="card">
-<h3>Workout Score</h3>
-<h2 id="score">0</h2>
-<button onclick="workout()">Workout Done</button>
-</div>
-
-</div>
+    <div class="statCard">
+      <h3>24/7</h3>
+      <p>Support (Demo)</p >
+    </div>
+  </div>
 </section>
 
-<section id="analytics" class="hidden">
-<div class="card">
-<canvas id="chart"></canvas>
-</div>
+<!-- PROGRAMS -->
+<section id="programs" class="section">
+  <h2>Coaching Programs</h2>
+
+  <div class="cardGrid">
+
+    <div class="card">
+      <h3>Beginner</h3>
+      <p>Learn correct form, build consistency and avoid injuries.</p >
+      <span class="tag">Best for starting out</span>
+    </div>
+
+    <div class="card">
+      <h3>Muscle Building</h3>
+      <p>Progressive overload programs and recovery tracking.</p >
+      <span class="tag">Strength & hypertrophy</span>
+    </div>
+
+    <div class="card">
+      <h3>Fat Loss</h3>
+      <p>Training and nutrition strategy tailored to lifestyle.</p >
+      <span class="tag">Sustainable results</span>
+    </div>
+
+  </div>
 </section>
 
-<section id="leaderboard" class="hidden">
-<div class="card">
-<h2>🏆 Leaderboard</h2>
-<div id="leaders"></div>
-</div>
+<!-- PRICING -->
+<section id="pricing" class="section">
+  <h2>Pricing Plans</h2>
+
+  <div class="pricingGrid">
+
+    <div class="priceCard">
+      <h3>Starter</h3>
+      <h1>$49</h1>
+      <p>Email support</p >
+      <p>Weekly check-in</p >
+      <button class="secondary">Get Started</button>
+    </div>
+
+    <div class="priceCard featured">
+      <h3>Pro</h3>
+      <h1>$99</h1>
+      <p>Custom workouts</p >
+      <p>Nutrition guidance</p >
+      <p>24/7 support</p >
+      <button>Join Pro</button>
+    </div>
+
+    <div class="priceCard">
+      <h3>Elite</h3>
+      <h1>$149</h1>
+      <p>1-on-1 coaching</p >
+      <p>Weekly calls</p >
+      <p>Full lifestyle plan</p >
+      <button class="secondary">Join Elite</button>
+    </div>
+
+  </div>
 </section>
 
-</main>
-</div>
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <h2>Contact</h2>
 
-<script type="module">
+  <div class="contactBox">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    <div class="contactInfo">
+      <p><strong>Email:</strong> coach@email.com</p >
+      <p><strong>Instagram:</strong> @gymcoach</p >
+      <small>This is a demo contact section for portfolio purposes.</small>
+    </div>
 
-import {
-getAuth,
-signInWithEmailAndPassword,
-createUserWithEmailAndPassword,
-signOut,
-onAuthStateChanged
+    <form class="contactForm">
+      <input placeholder="Your name">
+      <input placeholder="Your email">
+      <textarea placeholder="Your message"></textarea>
+      <button type="button">Send Message</button>
+    </form>
+
+  </div>
+</section>
+
+<footer>
+  © 2026 Gym Coaching App — Portfolio Demo
+</footer>
+
+<script>
+function scrollToSection(id){
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
-getFirestore,
-doc,
-getDoc,
-setDoc,
-updateDoc,
-collection,
-query,
-orderBy,
-limit,
-getDocs
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-/* FIREBASE */
-const firebaseConfig={
-apiKey:"AIzaSyCssNzQ3FeQ4reaEQTzGgpVbp9Igahn-KA",
-authDomain:"gym-coaching-app.firebaseapp.com",
-projectId:"gym-coaching-app",
-storageBucket:"gym-coaching-app.firebasestorage.app",
-messagingSenderId:"924789843595",
-appId:"1:924789843595:web:08e2d7e588123bc407168e"
-};
-
-const appFirebase=initializeApp(firebaseConfig);
-const auth=getAuth(appFirebase);
-const db=getFirestore(appFirebase);
-
-let uid;
-let data={calories:0,protein:0,score:0,history:[]};
-
-window.show=(id)=>{
-document.querySelectorAll("main section")
-.forEach(s=>s.classList.add("hidden"));
-document.getElementById(id).classList.remove("hidden");
-};
-
-window.login=()=>signInWithEmailAndPassword(auth,email.value,password.value);
-window.register=()=>createUserWithEmailAndPassword(auth,email.value,password.value);
-window.logout=()=>signOut(auth);
-
-onAuthStateChanged(auth, async(user)=>{
-
-if(!user){
-auth.style.display="flex";
-app.classList.add("hidden");
-return;
-}
-
-auth.style.display="none";
-app.classList.remove("hidden");
-
-uid=user.uid;
-welcome.innerText="Welcome "+user.email;
-
-const ref=doc(db,"users",uid);
-const snap=await getDoc(ref);
-
-if(!snap.exists()) await setDoc(ref,data);
-else data=snap.data();
-
-render();
-createChart();
-loadLeaderboard();
-});
-
-async function save(){
-await updateDoc(doc(db,"users",uid),data);
-render();
-updateChart();
-loadLeaderboard();
-}
-
-window.addCalories=()=>{data.calories+=250;save();}
-window.addProtein=()=>{data.protein+=30;save();}
-
-window.workout=()=>{
-data.score+=10;
-data.history.push(data.score);
-save();
-};
-
-function render(){
-calories.innerText=data.calories;
-protein.innerText=data.protein+"g";
-score.innerText=data.score;
-}
-
-let chart;
-
-function createChart(){
-chart=new Chart(chart,{
-type:"line",
-data:{
-labels:data.history.map((_,i)=>i+1),
-datasets:[{data:data.history,borderColor:"#22c55e"}]
-}
-});
-}
-
-function updateChart(){
-chart.data.labels=data.history.map((_,i)=>i+1);
-chart.data.datasets[0].data=data.history;
-chart.update();
-}
-
-async function loadLeaderboard(){
-leaders.innerHTML="Loading...";
-const q=query(collection(db,"users"),orderBy("score","desc"),limit(10));
-const snap=await getDocs(q);
-
-leaders.innerHTML="";
-let i=1;
-snap.forEach(d=>{
-leaders.innerHTML+=`<div class="rank">#${i++} — ${d.data().score}</div>`;
-});
-}
-
 </script>
 
 </body>
