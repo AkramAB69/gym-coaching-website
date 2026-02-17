@@ -1,49 +1,72 @@
 # 🏋️ Gym Coaching Platform
 
-A modern coaching website designed and developed as a full-stack ready web application project.
-
-This project demonstrates frontend engineering, UI design, and web architecture fundamentals suitable for internship-level software engineering roles.
-
----
+A modern full-stack fitness coaching website deployed using GitHub Pages with a Firebase-ready backend structure.
 
 ## 🚀 Live Demo
-
-👉 https://YOUR-USERNAME.github.io/YOUR-REPOSITORY-NAME/
+👉 https://akramab69.github.io/gym-coaching-website/
 
 ---
 
 ## 📌 Project Overview
 
-The Gym Coaching Platform is a responsive website built to help fitness coaches present programs, communicate with clients, and manage coaching services online.
+This project simulates a real online coaching platform where users can:
 
-Main goals of the project:
+- Browse fitness coaching programs
+- View training categories
+- Join online coaching plans
+- Experience a responsive modern UI
 
-- Create a clean and modern coaching interface
-- Practice real-world website structure
-- Demonstrate frontend engineering skills
-- Prepare foundation for backend API integration
-
----
-
-## 🧠 Features
-
-- Responsive landing page
-- Coaching program presentation
-- Contact section
-- Structured navigation system
-- Clean UI layout
-- Mobile-friendly design
+The goal of this project is to demonstrate full-stack web development fundamentals and deployment workflow.
 
 ---
 
 ## 🛠 Tech Stack
 
 - HTML5
-- CSS3
+- CSS3 (Responsive Design)
 - JavaScript (Vanilla JS)
-- Git & GitHub
-- GitHub Pages Deployment
+- Firebase (backend-ready architecture)
+- Git & GitHub Pages deployment
 
 ---
 
-## 🏗 Project Structure
+## ✨ Features
+
+- Responsive modern UI
+- Coaching program sections
+- Call-to-action onboarding flow
+- Clean component structure
+- Deployable static frontend
+
+---
+
+## 🌐 Deployment
+
+The project is deployed using **GitHub Pages** directly from the `main` branch.
+
+---
+
+## 🎯 Purpose
+
+This project was built as part of a software engineering learning path to demonstrate:
+
+- Frontend development skills
+- Project structuring
+- Real deployment workflow
+- Version control using GitHub
+
+---
+
+## 📈 Future Improvements
+
+- Firebase authentication
+- User dashboard
+- Payment integration
+- Coaching progress tracking
+
+---
+
+## 👨‍💻 Author
+
+Akram AB  
+Software Engineering & Web Development Projects
