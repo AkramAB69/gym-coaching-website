@@ -1,79 +1,84 @@
-function login(){
-let email=document.getElementById("email").value;
-if(!email) return;
+let calories = localStorage.getItem("calories") || 0;
+let workouts = localStorage.getItem("workouts") || 0;
+let protein = localStorage.getItem("protein") || 0;
 
-localStorage.setItem("gymUser",email.split("@")[0]);
+function login(){
+const email=document.getElementById("email").value;
+document.getElementById("username").innerText=email.split("@")[0];
+
+document.getElementById("loginScreen").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+
 updateUI();
-loginModal.style.display="none";
-initChart();
 }
 
 function logout(){
-localStorage.clear();
 location.reload();
 }
 
-function updateUI(){
-let user=localStorage.getItem("gymUser");
-if(!user){
-loginModal.style.display="flex";
-}else{
-document.getElementById("username").textContent=user;
-}
-}
-
 function showPage(page){
-dashboardPage.style.display="none";
-analyticsPage.style.display="none";
-profilePage.style.display="none";
-document.getElementById(page+"Page").style.display="block";
-}
+["dashboard","analytics","profile"].forEach(p=>{
+document.getElementById(p+"Page").classList.add("hidden");
+});
+document.getElementById(page+"Page").classList.remove("hidden");
 
-let kcal=Number(localStorage.getItem("kcal")||0);
-document.getElementById("calories").innerText=kcal;
+if(page==="analytics") loadChart();
+}
 
 function addCalories(){
-kcal+=250;
-localStorage.setItem("kcal",kcal);
-document.getElementById("calories").innerText=kcal;
-notify();
+calories=Number(calories)+250;
+localStorage.setItem("calories",calories);
+updateUI();
+}
+
+function addProtein(){
+protein=Number(protein)+30;
+localStorage.setItem("protein",protein);
+updateUI();
+}
+
+function completeWorkout(){
+if(workouts<6){
+workouts++;
+localStorage.setItem("workouts",workouts);
+updateUI();
+}
+}
+
+function updateUI(){
+document.getElementById("calories").innerText=calories;
+document.getElementById("protein").innerText=protein+"g";
+
+document.getElementById("workoutText").innerText=
+workouts+" / 6 sessions";
+
+document.getElementById("progressFill").style.width=
+(workouts/6)*100+"%";
 }
 
 function saveProfile(){
-let name=document.getElementById("nameInput").value;
-if(!name) return;
-localStorage.setItem("gymUser",name);
-updateUI();
-notify();
-}
-
-function notify(){
-let t=document.getElementById("toast");
-t.style.opacity=1;
-setTimeout(()=>t.style.opacity=0,2000);
+const name=document.getElementById("nameInput").value;
+document.getElementById("username").innerText=name;
 }
 
 function toggleTheme(){
-document.body.classList.toggle("light");
+document.body.style.background=
+document.body.style.background==="white"
+? "#0b1220"
+: "white";
 }
 
-function initChart(){
-const ctx=document.getElementById('chart');
-if(!ctx) return;
-
-new Chart(ctx,{
-type:'line',
+function loadChart(){
+new Chart(document.getElementById("chart"),{
+type:"line",
 data:{
-labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+labels:["Mon","Tue","Wed","Thu","Fri","Sat"],
 datasets:[{
-label:'Strength Progress',
-data:[40,45,50,55,60,65,70],
-borderColor:'#39ff14',
+label:"Calories",
+data:[1800,2100,2000,2300,2400,2200],
+borderColor:"#39ff14",
 tension:.4
 }]
 }
 });
 }
-
-updateUI();
-if(localStorage.getItem("gymUser")) initChart();
