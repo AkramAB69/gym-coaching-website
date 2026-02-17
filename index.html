@@ -2,20 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gym Coaching App</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Gym Coaching Pro</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 body{
 margin:0;
-font-family:Arial;
+font-family:system-ui;
 background:#0f172a;
 color:white;
+transition:.3s;
 }
 
-/* LOGIN */
+.light{
+background:#f1f5f9;
+color:#111;
+}
+
+.hidden{display:none}
+
 .center{
 height:100vh;
 display:flex;
@@ -27,43 +34,41 @@ align-items:center;
 background:#1e293b;
 padding:25px;
 border-radius:12px;
+max-width:320px;
+width:100%;
 }
+
+.light .card{background:white;}
 
 input{
 width:100%;
 padding:10px;
 margin:8px 0;
-border:none;
 border-radius:6px;
+border:none;
 }
 
 button{
-background:#22c55e;
-border:none;
+width:100%;
 padding:10px;
+margin-top:8px;
+border:none;
 border-radius:6px;
+background:#22c55e;
 color:white;
 cursor:pointer;
 }
 
-.hidden{display:none}
-
-/* APP */
 .sidebar{
 position:fixed;
-width:220px;
+width:230px;
 height:100vh;
 background:#020617;
 padding:20px;
 }
 
-.sidebar button{
-width:100%;
-margin:6px 0;
-}
-
 .main{
-margin-left:240px;
+margin-left:250px;
 padding:30px;
 }
 
@@ -77,27 +82,36 @@ gap:20px;
 background:#334155;
 height:10px;
 border-radius:6px;
-margin:10px 0;
 }
 
 .fill{
 height:100%;
 background:#22c55e;
 width:0%;
-border-radius:6px;
+}
+
+@media(max-width:800px){
+.sidebar{position:relative;width:100%;height:auto;}
+.main{margin-left:0;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="login" class="center">
+<!-- LOADING -->
+<div id="loading" class="center hidden">
+<h2>Loading...</h2>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="center">
 <div class="card">
-<h2>Gym Coaching</h2>
+<h2>Gym Coaching Pro</h2>
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
+<button onclick="loginUser()">Login</button>
+<button onclick="registerUser()">Create Account</button>
 </div>
 </div>
 
@@ -106,24 +120,23 @@ border-radius:6px;
 
 <aside class="sidebar">
 <h2>🏋 Gym</h2>
-
-<button onclick="page('dashboard')">Dashboard</button>
-<button onclick="page('analytics')">Analytics</button>
-<button onclick="logout()">Logout</button>
+<button onclick="showPage('dashboard')">Dashboard</button>
+<button onclick="showPage('analytics')">Analytics</button>
+<button onclick="toggleTheme()">Theme</button>
+<button onclick="logoutUser()">Logout</button>
 </aside>
 
 <main class="main">
 
-<!-- DASHBOARD -->
 <section id="dashboard">
-<h1>Dashboard</h1>
+<h1 id="welcome"></h1>
 
 <div class="grid">
 
 <div class="card">
 <h3>Calories</h3>
 <h2 id="calories">0</h2>
-<button onclick="addCalories()">+250</button>
+<button onclick="addCalories()">+250 kcal</button>
 </div>
 
 <div class="card">
@@ -138,45 +151,37 @@ border-radius:6px;
 <div class="progress">
 <div id="progressFill" class="fill"></div>
 </div>
-<button onclick="addWorkout()">Complete</button>
+<button onclick="addWorkout()">Complete Workout</button>
 </div>
 
 </div>
 </section>
 
-<!-- ANALYTICS -->
 <section id="analytics" class="hidden">
-<h1>Analytics</h1>
+<h1>Progress Analytics</h1>
 <div class="card">
-<canvas id="chart"></canvas>
+<canvas id="chartCanvas"></canvas>
 </div>
 </section>
 
 </main>
 </div>
 
-<!-- APP LOGIC -->
-<script>
-function page(name){
-document.querySelectorAll("main section")
-.forEach(s=>s.classList.add("hidden"));
-document.getElementById(name).classList.remove("hidden");
-}
-</script>
-
-<!-- FIREBASE SYSTEM -->
 <script type="module">
 
-import { initializeApp } from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+/* ---------- FIREBASE ---------- */
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 getAuth,
 signInWithEmailAndPassword,
+createUserWithEmailAndPassword,
 signOut,
 onAuthStateChanged
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
 getFirestore,
@@ -184,11 +189,10 @@ doc,
 getDoc,
 setDoc,
 updateDoc
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* CONFIG */
-const firebaseConfig = {
+const firebaseConfig={
 apiKey:"AIzaSyCssNzQ3FeQ4reaEQTzGgpVbp9Igahn-KA",
 authDomain:"gym-coaching-app.firebaseapp.com",
 projectId:"gym-coaching-app",
@@ -197,106 +201,146 @@ messagingSenderId:"924789843595",
 appId:"1:924789843595:web:08e2d7e588123bc407168e"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const appFirebase=initializeApp(firebaseConfig);
+const auth=getAuth(appFirebase);
+const db=getFirestore(appFirebase);
+
+/* ---------- STATE ---------- */
 
 let userRef;
-let userData={calories:0,protein:0,workouts:0};
-
-/* LOGIN */
-window.login=()=>{
-const email=emailInput.value;
-const password=passwordInput.value;
-
-signInWithEmailAndPassword(auth,email,password)
-.catch(()=>alert("Login failed"));
+let data={
+calories:0,
+protein:0,
+workouts:0,
+history:[],
+theme:"dark"
 };
 
-/* LOGOUT */
-window.logout=()=>signOut(auth);
+/* ---------- UI ---------- */
 
-/* AUTH STATE */
+function loadingOn(){loading.classList.remove("hidden")}
+function loadingOff(){loading.classList.add("hidden")}
+
+window.showPage=(p)=>{
+document.querySelectorAll("main section")
+.forEach(s=>s.classList.add("hidden"));
+document.getElementById(p).classList.remove("hidden");
+};
+
+function render(){
+calories.innerText=data.calories;
+protein.innerText=data.protein+"g";
+workoutText.innerText=data.workouts+" / 6";
+progressFill.style.width=(data.workouts/6*100)+"%";
+}
+
+/* ---------- AUTH ---------- */
+
+window.loginUser=async()=>{
+try{
+await signInWithEmailAndPassword(auth,email.value,password.value);
+}catch(e){
+alert("Login failed");
+console.error(e);
+}
+};
+
+window.registerUser=async()=>{
+try{
+await createUserWithEmailAndPassword(auth,email.value,password.value);
+}catch(e){
+alert("Register failed");
+}
+};
+
+window.logoutUser=()=>signOut(auth);
+
+/* ---------- SESSION ---------- */
+
 onAuthStateChanged(auth, async(user)=>{
+
 if(!user){
-login.classList.remove("hidden");
+auth.style.display="flex";
 app.classList.add("hidden");
 return;
 }
 
-login.classList.add("hidden");
+loadingOn();
+
+auth.style.display="none";
 app.classList.remove("hidden");
+
+welcome.innerText="Welcome "+user.email;
 
 userRef=doc(db,"users",user.uid);
 
 const snap=await getDoc(userRef);
 
 if(!snap.exists()){
-await setDoc(userRef,userData);
+await setDoc(userRef,data);
 }else{
-userData=snap.data();
+data=snap.data();
 }
 
+applyTheme();
 render();
 createChart();
+
+loadingOff();
 });
 
-/* SAVE */
+/* ---------- SAVE ---------- */
+
 async function save(){
-await updateDoc(userRef,userData);
+await updateDoc(userRef,data);
 render();
 updateChart();
 }
 
-/* ACTIONS */
-window.addCalories=()=>{
-userData.calories+=250;
-save();
-};
+/* ---------- ACTIONS ---------- */
 
-window.addProtein=()=>{
-userData.protein+=30;
-save();
-};
+window.addCalories=()=>{data.calories+=250;save();}
+window.addProtein=()=>{data.protein+=30;save();}
 
 window.addWorkout=()=>{
-userData.workouts++;
+data.workouts++;
+data.history.push(data.workouts);
 save();
 };
 
-/* UI */
-function render(){
-calories.innerText=userData.calories;
-protein.innerText=userData.protein+"g";
-workoutText.innerText=userData.workouts+" / 6";
-progressFill.style.width=(userData.workouts/6*100)+"%";
+/* ---------- THEME ---------- */
+
+window.toggleTheme=()=>{
+data.theme=data.theme==="dark"?"light":"dark";
+applyTheme();
+save();
+};
+
+function applyTheme(){
+document.body.classList.toggle("light",data.theme==="light");
 }
 
-/* CHART */
+/* ---------- CHART ---------- */
+
 let chart;
 
 function createChart(){
 chart=new Chart(chartCanvas,{
-type:"bar",
+type:"line",
 data:{
-labels:["Calories","Protein","Workouts"],
+labels:data.history.map((_,i)=>"Day "+(i+1)),
 datasets:[{
-data:[
-userData.calories,
-userData.protein,
-userData.workouts
-]
+label:"Workouts",
+data:data.history,
+borderColor:"#22c55e"
 }]
 }
 });
 }
 
 function updateChart(){
-chart.data.datasets[0].data=[
-userData.calories,
-userData.protein,
-userData.workouts
-];
+chart.data.labels=data.history.map((_,i)=>"Day "+(i+1));
+chart.data.datasets[0].data=data.history;
 chart.update();
 }
 
