@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Gym Coaching Pro</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gym Coaching FAANG Demo</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -13,7 +13,6 @@ margin:0;
 font-family:system-ui;
 background:#0f172a;
 color:white;
-transition:.3s;
 }
 
 .light{
@@ -32,28 +31,22 @@ align-items:center;
 
 .card{
 background:#1e293b;
-padding:25px;
+padding:20px;
 border-radius:12px;
-max-width:320px;
-width:100%;
+margin-bottom:20px;
 }
 
 .light .card{background:white;}
 
-input{
-width:100%;
-padding:10px;
-margin:8px 0;
-border-radius:6px;
-border:none;
-}
-
-button{
+input,button{
 width:100%;
 padding:10px;
 margin-top:8px;
 border:none;
 border-radius:6px;
+}
+
+button{
 background:#22c55e;
 color:white;
 cursor:pointer;
@@ -78,31 +71,16 @@ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:20px;
 }
 
-.progress{
-background:#334155;
-height:10px;
-border-radius:6px;
-}
-
-.fill{
-height:100%;
-background:#22c55e;
-width:0%;
-}
-
-@media(max-width:800px){
-.sidebar{position:relative;width:100%;height:auto;}
-.main{margin-left:0;}
+.rank{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+border-bottom:1px solid #334155;
 }
 </style>
 </head>
 
 <body>
-
-<!-- LOADING -->
-<div id="loading" class="center hidden">
-<h2>Loading...</h2>
-</div>
 
 <!-- AUTH -->
 <div id="auth" class="center">
@@ -111,7 +89,7 @@ width:0%;
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
 <button onclick="loginUser()">Login</button>
-<button onclick="registerUser()">Create Account</button>
+<button onclick="registerUser()">Register</button>
 </div>
 </div>
 
@@ -122,6 +100,7 @@ width:0%;
 <h2>🏋 Gym</h2>
 <button onclick="showPage('dashboard')">Dashboard</button>
 <button onclick="showPage('analytics')">Analytics</button>
+<button onclick="showPage('leaderboard')">Leaderboard</button>
 <button onclick="toggleTheme()">Theme</button>
 <button onclick="logoutUser()">Logout</button>
 </aside>
@@ -136,7 +115,7 @@ width:0%;
 <div class="card">
 <h3>Calories</h3>
 <h2 id="calories">0</h2>
-<button onclick="addCalories()">+250 kcal</button>
+<button onclick="addCalories()">+250</button>
 </div>
 
 <div class="card">
@@ -146,21 +125,24 @@ width:0%;
 </div>
 
 <div class="card">
-<h3>Workout Progress</h3>
-<p id="workoutText">0 / 6</p >
-<div class="progress">
-<div id="progressFill" class="fill"></div>
-</div>
-<button onclick="addWorkout()">Complete Workout</button>
+<h3>Workout Score</h3>
+<h2 id="score">0</h2>
+<button onclick="addWorkout()">Workout Done</button>
 </div>
 
 </div>
 </section>
 
 <section id="analytics" class="hidden">
-<h1>Progress Analytics</h1>
 <div class="card">
 <canvas id="chartCanvas"></canvas>
+</div>
+</section>
+
+<section id="leaderboard" class="hidden">
+<div class="card">
+<h2>🏆 Global Leaderboard</h2>
+<div id="leaderboardList"></div>
 </div>
 </section>
 
@@ -188,7 +170,12 @@ getFirestore,
 doc,
 getDoc,
 setDoc,
-updateDoc
+updateDoc,
+collection,
+getDocs,
+query,
+orderBy,
+limit
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -211,15 +198,12 @@ let userRef;
 let data={
 calories:0,
 protein:0,
-workouts:0,
+score:0,
 history:[],
 theme:"dark"
 };
 
-/* ---------- UI ---------- */
-
-function loadingOn(){loading.classList.remove("hidden")}
-function loadingOff(){loading.classList.add("hidden")}
+/* ---------- NAV ---------- */
 
 window.showPage=(p)=>{
 document.querySelectorAll("main section")
@@ -227,32 +211,10 @@ document.querySelectorAll("main section")
 document.getElementById(p).classList.remove("hidden");
 };
 
-function render(){
-calories.innerText=data.calories;
-protein.innerText=data.protein+"g";
-workoutText.innerText=data.workouts+" / 6";
-progressFill.style.width=(data.workouts/6*100)+"%";
-}
-
 /* ---------- AUTH ---------- */
 
-window.loginUser=async()=>{
-try{
-await signInWithEmailAndPassword(auth,email.value,password.value);
-}catch(e){
-alert("Login failed");
-console.error(e);
-}
-};
-
-window.registerUser=async()=>{
-try{
-await createUserWithEmailAndPassword(auth,email.value,password.value);
-}catch(e){
-alert("Register failed");
-}
-};
-
+window.loginUser=()=>signInWithEmailAndPassword(auth,email.value,password.value);
+window.registerUser=()=>createUserWithEmailAndPassword(auth,email.value,password.value);
 window.logoutUser=()=>signOut(auth);
 
 /* ---------- SESSION ---------- */
@@ -264,8 +226,6 @@ auth.style.display="flex";
 app.classList.add("hidden");
 return;
 }
-
-loadingOn();
 
 auth.style.display="none";
 app.classList.remove("hidden");
@@ -285,8 +245,7 @@ data=snap.data();
 applyTheme();
 render();
 createChart();
-
-loadingOff();
+loadLeaderboard();
 });
 
 /* ---------- SAVE ---------- */
@@ -295,6 +254,7 @@ async function save(){
 await updateDoc(userRef,data);
 render();
 updateChart();
+loadLeaderboard();
 }
 
 /* ---------- ACTIONS ---------- */
@@ -303,8 +263,8 @@ window.addCalories=()=>{data.calories+=250;save();}
 window.addProtein=()=>{data.protein+=30;save();}
 
 window.addWorkout=()=>{
-data.workouts++;
-data.history.push(data.workouts);
+data.score+=10;
+data.history.push(data.score);
 save();
 };
 
@@ -320,6 +280,14 @@ function applyTheme(){
 document.body.classList.toggle("light",data.theme==="light");
 }
 
+/* ---------- UI ---------- */
+
+function render(){
+calories.innerText=data.calories;
+protein.innerText=data.protein+"g";
+score.innerText=data.score;
+}
+
 /* ---------- CHART ---------- */
 
 let chart;
@@ -328,9 +296,8 @@ function createChart(){
 chart=new Chart(chartCanvas,{
 type:"line",
 data:{
-labels:data.history.map((_,i)=>"Day "+(i+1)),
+labels:data.history.map((_,i)=>"Session "+(i+1)),
 datasets:[{
-label:"Workouts",
 data:data.history,
 borderColor:"#22c55e"
 }]
@@ -339,9 +306,36 @@ borderColor:"#22c55e"
 }
 
 function updateChart(){
-chart.data.labels=data.history.map((_,i)=>"Day "+(i+1));
+chart.data.labels=data.history.map((_,i)=>"Session "+(i+1));
 chart.data.datasets[0].data=data.history;
 chart.update();
+}
+
+/* ---------- LEADERBOARD ---------- */
+
+async function loadLeaderboard(){
+
+leaderboardList.innerHTML="Loading...";
+
+const q=query(
+collection(db,"users"),
+orderBy("score","desc"),
+limit(10)
+);
+
+const snap=await getDocs(q);
+
+leaderboardList.innerHTML="";
+
+snap.forEach((doc,i)=>{
+const user=doc.data();
+
+leaderboardList.innerHTML+=`
+<div class="rank">
+<span>#${i+1}</span>
+<span>${user.score || 0} pts</span>
+</div>`;
+});
 }
 
 </script>
