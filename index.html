@@ -8,519 +8,233 @@
 <style>
 html{scroll-behavior:smooth;}
 body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:linear-gradient(180deg,#081020,#0f2347);
-  color:white;
-  overflow-x:hidden;
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(180deg,#081020,#0f2347);
+color:white;
 }
 
-/* ---------- NAV ---------- */
+/* NAV */
 nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 60px;
-  position:sticky;
-  top:0;
-  background:rgba(10,15,30,.72);
-  backdrop-filter:blur(10px);
-  z-index:100;
-  border-bottom:1px solid rgba(255,255,255,.08);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:rgba(10,15,30,.75);
+position:sticky;
+top:0;
+backdrop-filter:blur(10px);
 }
-nav h2{margin:0;}
 nav a{
-  color:white;
-  text-decoration:none;
-  margin-left:25px;
-  opacity:.78;
-  font-weight:500;
-  cursor:pointer;
+color:white;
+margin-left:25px;
+cursor:pointer;
+text-decoration:none;
+opacity:.8;
 }
 nav a:hover{opacity:1}
 
-/* ---------- BUTTON ---------- */
+/* BUTTON */
 .btn{
-  background:linear-gradient(45deg,#39ff14,#00ffa6);
-  color:black;
-  padding:14px 30px;
-  border-radius:12px;
-  font-weight:bold;
-  text-decoration:none;
-  box-shadow:0 0 20px #39ff14aa;
-  transition:.3s;
-  border:none;
-  cursor:pointer;
-}
-.btn:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 35px #39ff14;
-}
-.btn--ghost{
-  background:rgba(255,255,255,.08);
-  color:white;
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow:none;
-}
-.btn--ghost:hover{
-  background:rgba(255,255,255,.12);
-  box-shadow:none;
+background:linear-gradient(45deg,#39ff14,#00ffa6);
+color:black;
+padding:14px 28px;
+border-radius:12px;
+font-weight:bold;
+border:none;
+cursor:pointer;
 }
 
-/* ---------- HERO ---------- */
-.hero{
-  text-align:center;
-  padding:110px 20px 70px;
-}
-.hero h1{font-size:44px; margin-bottom:12px;}
-.hero p{opacity:.82; margin-bottom:35px;}
+/* HERO */
+.hero{text-align:center;padding:110px 20px;}
+.hero h1{font-size:42px;margin-bottom:10px;}
+.hero p{opacity:.8}
 
-/* ---------- STATS ---------- */
-.stats{
-  display:flex;
-  justify-content:center;
-  gap:30px;
-  flex-wrap:wrap;
-  margin:60px 0;
-}
-.stat{
-  background:rgba(255,255,255,0.06);
-  padding:28px 45px;
-  border-radius:16px;
-  text-align:center;
-  border:1px solid rgba(255,255,255,.10);
-}
-.stat h2{color:#39ff14; margin:0; font-size:32px;}
-
-/* ---------- SECTION ---------- */
-.section{
-  padding:70px 10%;
-  text-align:center;
-}
-.cards{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:28px;
-}
-
-/* ---------- CARDS ---------- */
+/* CARDS */
+.section{padding:70px 10%;text-align:center;}
+.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:25px;}
 .card{
-  background:rgba(255,255,255,0.07);
-  padding:32px;
-  border-radius:18px;
-  width:260px;
-  transition:.35s;
-  opacity:0;
-  transform:translateY(40px);
-  border:1px solid rgba(255,255,255,.10);
-}
-.card.show{opacity:1; transform:translateY(0);}
-.card:hover{
-  transform:translateY(-10px);
-  box-shadow:0 0 35px rgba(0,255,120,.35);
+background:rgba(255,255,255,.08);
+padding:30px;
+border-radius:18px;
+width:260px;
 }
 
-/* ---------- PRICING ---------- */
-.price{color:#39ff14; font-size:30px; margin:15px 0;}
-.pricing{
-  background:rgba(255,255,255,0.08);
-  padding:35px;
-  border-radius:20px;
-  width:260px;
-  transition:.3s;
-  opacity:0;
-  transform:translateY(40px);
-  border:1px solid rgba(255,255,255,.12);
-}
-.pricing.show{opacity:1; transform:translateY(0);}
-.pricing:hover{
-  transform:scale(1.06);
-  box-shadow:0 0 40px #39ff1450;
-}
-
-/* ---------- CONTACT ---------- */
-.contact-wrap{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:40px;
-  margin-top:30px;
-}
-input, textarea{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
-  border:none;
-  outline:none;
-}
-textarea{min-height:110px;}
-button.send{
-  width:100%;
-  margin-top:8px;
-}
-
-/* ---------- FOOTER ---------- */
-footer{
-  text-align:center;
-  padding:40px;
-  opacity:.7;
-  border-top:1px solid rgba(255,255,255,.08);
-}
-
-/* ---------- MODAL ---------- */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.70);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:200;
-}
-.modal.show{display:flex;}
-.modalBox{
-  width:min(420px, 92vw);
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.16);
-  border-radius:18px;
-  padding:26px;
-  box-shadow:0 30px 70px rgba(0,0,0,.55);
-  backdrop-filter:blur(14px);
-}
-.modalTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:12px;
-}
-.modalTop h3{margin:0;}
-.close{
-  background:transparent;
-  border:none;
-  color:white;
-  font-size:22px;
-  cursor:pointer;
-  opacity:.8;
-}
-.close:hover{opacity:1;}
-.small{opacity:.75; font-size:13px;}
-
-/* ---------- DASHBOARD VIEW ---------- */
-#dashboardView{
-  display:none;
-  padding:80px 10% 60px;
-}
-.dashHead{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:20px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
-}
-.dashHead h1{margin:0;}
-.badge{
-  display:inline-block;
-  padding:8px 12px;
-  border-radius:999px;
-  background:rgba(57,255,20,.14);
-  border:1px solid rgba(57,255,20,.25);
-  color:#b9ffb0;
-  font-size:12px;
-  font-weight:bold;
-}
-.dashGrid{
-  display:grid;
-  grid-template-columns:repeat(3, minmax(0,1fr));
-  gap:16px;
-  margin-top:18px;
-}
+/* DASHBOARD */
+#dashboard{display:none;padding:80px 10%;text-align:center;}
 .dashCard{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:18px;
-  padding:18px;
-}
-.progressBar{
-  height:10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.10);
-  overflow:hidden;
-  margin-top:10px;
-}
-.progressBar span{
-  display:block;
-  height:100%;
-  width:68%;
-  background:linear-gradient(90deg,#39ff14,#00ffa6);
+background:rgba(255,255,255,.08);
+padding:25px;
+border-radius:16px;
+margin:15px;
+display:inline-block;
+width:260px;
 }
 
-/* ---------- RESPONSIVE ---------- */
-@media(max-width:900px){
-  nav{padding:16px 20px;}
-  .hero h1{font-size:34px;}
-  .dashGrid{grid-template-columns:1fr;}
+/* MODAL */
+.modal{
+position:fixed;
+inset:0;
+background:#000000cc;
+display:none;
+align-items:center;
+justify-content:center;
 }
+.modalBox{
+background:#1c2541;
+padding:30px;
+border-radius:16px;
+width:300px;
+text-align:center;
+}
+input{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:8px;
+border:none;
+}
+
+footer{text-align:center;padding:40px;opacity:.6;}
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <nav>
-  <h2>Gym Coaching</h2>
-  <div id="navLinks">
-    <a onclick="goHome()">Home</a >
-    <a href=" " id="navPrograms">Programs</a >
-    <a href="#pricing" id="navPricing">Pricing</a >
-    <a href="#contact" id="navContact">Contact</a >
-    <a onclick="openLogin()" id="navLogin">Login</a >
-    <a onclick="goDashboard()" id="navDashboard" style="display:none;">Dashboard</a >
-    <a onclick="logout()" id="navLogout" style="display:none;">Logout</a >
-  </div>
+<h2>Gym Coaching</h2>
+<div>
+<a onclick="goHome()">Home</a >
+<a onclick="openLogin()" id="loginBtn">Login</a >
+<a onclick="goDashboard()" id="dashBtn" style="display:none;">Dashboard</a >
+<a onclick="logout()" id="logoutBtn" style="display:none;">Logout</a >
+</div>
 </nav>
 
-<!-- HOME PAGE -->
-<div id="homePage">
+<!-- HOME -->
+<div id="home">
 
-  <section class="hero">
-    <h1>Full-Stack Fitness Coaching Web Application</h1>
-    <p>Interactive coaching platform with client dashboard experience.</p >
-    <button class="btn" onclick="openLogin()">Start Coaching</button>
-  </section>
+<section class="hero">
+<h1>Full-Stack Fitness Coaching Web Application</h1>
+<p>Interactive coaching platform with persistent user session.</p >
+<br>
+<button class="btn" onclick="openLogin()">Start Coaching</button>
+</section>
 
-  <div class="stats">
-    <div class="stat"><h2 id="count1">0</h2><p>Programs</p ></div>
-    <div class="stat"><h2 id="count2">0</h2><p>Clients Demo</p ></div>
-    <div class="stat"><h2 id="count3">0</h2><p>Support</p ></div>
-  </div>
-
-  <section id="programs" class="section">
-    <h2>Coaching Programs</h2>
-    <div class="cards">
-      <div class="card"><h3>Beginner</h3><p>Learn correct form and build consistency safely.</p ></div>
-      <div class="card"><h3>Muscle Building</h3><p>Progressive overload and recovery tracking.</p ></div>
-      <div class="card"><h3>Fat Loss</h3><p>Training and nutrition strategy tailored to lifestyle.</p ></div>
-    </div>
-  </section>
-
-  <section id="pricing" class="section">
-    <h2>Pricing Plans</h2>
-    <div class="cards">
-      <div class="pricing">
-        <h3>Starter</h3>
-        <div class="price">$49</div>
-        <p>Email support</p ><p>Weekly check-in</p >
-        <br><button class="btn btn--ghost" onclick="pickPlan('Starter')">Get Started</button>
-      </div>
-
-      <div class="pricing">
-        <h3>Pro</h3>
-        <div class="price">$99</div>
-        <p>Custom workouts</p ><p>Nutrition guidance</p ><p>24/7 support</p >
-        <br><button class="btn" onclick="pickPlan('Pro')">Join Pro</button>
-      </div>
-
-      <div class="pricing">
-        <h3>Elite</h3>
-        <div class="price">$149</div>
-        <p>1-on-1 coaching</p ><p>Weekly calls</p ><p>Full lifestyle plan</p >
-        <br><button class="btn btn--ghost" onclick="pickPlan('Elite')">Join Elite</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="section">
-    <h2>Contact</h2>
-
-    <div class="contact-wrap">
-      <div>
-        <p><b>Email:</b> coach@email.com</p >
-        <p><b>Instagram:</b> @gymcoach</p >
-        <p style="opacity:.75">Demo contact section for portfolio presentation.</p >
-      </div>
-
-      <div style="width:320px;">
-        <input id="cName" placeholder="Your name">
-        <input id="cEmail" placeholder="Your email">
-        <textarea id="cMsg" placeholder="Your message"></textarea>
-        <button class="btn send" onclick="sendMessage()">Send Message</button>
-        <div id="msgStatus" style="opacity:.75; font-size:13px; margin-top:8px;"></div>
-      </div>
-    </div>
-  </section>
+<section class="section">
+<h2>Programs</h2>
+<div class="cards">
+<div class="card"><h3>Beginner</h3><p>Build fundamentals safely.</p ></div>
+<div class="card"><h3>Muscle Building</h3><p>Progressive overload training.</p ></div>
+<div class="card"><h3>Fat Loss</h3><p>Nutrition + workout strategy.</p ></div>
+</div>
+</section>
 
 </div>
 
-<!-- DASHBOARD PAGE -->
-<div id="dashboardView">
-  <div class="dashHead">
-    <div>
-      <h1>Your Dashboard</h1>
-      <div class="small">Welcome back, <span id="userName">Athlete</span> 👋</div>
-      <div class="badge">Demo Mode • No real backend</div>
-    </div>
-    <div>
-      <button class="btn btn--ghost" onclick="goHome()">Back to Home</button>
-    </div>
-  </div>
+<!-- DASHBOARD -->
+<div id="dashboard">
+<h1>Welcome back, <span id="username">Athlete</span> 👋</h1>
 
-  <div class="dashGrid">
-    <div class="dashCard">
-      <h3>Weekly Plan</h3>
-      <p style="opacity:.78">Push • Pull • Legs (Active)</p >
-      <div class="progressBar"><span style="width:72%"></span></div>
-      <div class="small">Completion: 72%</div>
-    </div>
+<div class="dashCard">
+<h3>Weekly Plan</h3>
+<p>Push • Pull • Legs</p >
+</div>
 
-    <div class="dashCard">
-      <h3>Strength Progress</h3>
-      <p style="opacity:.78">Bench +10kg • Squat +15kg • Deadlift +20kg</p >
-      <div class="progressBar"><span style="width:64%"></span></div>
-      <div class="small">Monthly progress: 64%</div>
-    </div>
+<div class="dashCard">
+<h3>Progress</h3>
+<p>+3kg Strength Gain</p >
+</div>
 
-    <div class="dashCard">
-      <h3>Nutrition Target</h3>
-      <p style="opacity:.78">2400 kcal • 180g protein</p >
-      <div class="progressBar"><span style="width:58%"></span></div>
-      <div class="small">Today tracked: 58%</div>
-    </div>
-  </div>
+<div class="dashCard">
+<h3>Nutrition</h3>
+<p>2400 kcal • 180g protein</p >
+</div>
 
-  <div style="margin-top:24px;">
-    <button class="btn" onclick="logout()">Logout</button>
-  </div>
+<br><br>
+<button class="btn" onclick="logout()">Logout</button>
 </div>
 
 <footer>
-© 2026 Gym Coaching App — Portfolio Demo
+© 2026 Gym Coaching — Portfolio Demo
 </footer>
 
 <!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
-  <div class="modalBox">
-    <div class="modalTop">
-      <h3>Member Login</h3>
-      <button class="close" onclick="closeLogin()">×</button>
-    </div>
-    <div class="small">Demo login. Any email/password works.</div>
-
-    <input id="loginEmail" placeholder="Email" style="margin-top:12px;">
-    <input id="loginPass" type="password" placeholder="Password">
-
-    <div style="display:flex; gap:10px; margin-top:14px;">
-      <button class="btn" style="flex:1" onclick="login()">Login</button>
-      <button class="btn btn--ghost" style="flex:1" onclick="fillDemo()">Use Demo</button>
-    </div>
-
-    <div id="loginStatus" class="small" style="margin-top:10px;"></div>
-  </div>
+<div class="modalBox">
+<h3>Login</h3>
+<input id="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Password">
+<br><br>
+<button class="btn" onclick="login()">Login</button>
+</div>
 </div>
 
 <script>
-/* ---------- SCROLL REVEAL ---------- */
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting) entry.target.classList.add("show");
-  });
-},{threshold:0.15});
 
-document.querySelectorAll(".card,.pricing").forEach(el=>observer.observe(el));
+/* ---------- SESSION SYSTEM ---------- */
 
-/* ---------- COUNTERS ---------- */
-function animate(id,target){
-  let count=0;
-  let step=target/60;
-  let interval=setInterval(()=>{
-    count+=step;
-    if(count>=target){count=target; clearInterval(interval);}
-    document.getElementById(id).innerText=Math.floor(count);
-  },20);
-}
-animate("count1",3);
-animate("count2",120);
-animate("count3",24);
-
-/* ---------- MODAL ---------- */
-function openLogin(){ document.getElementById("loginModal").classList.add("show"); }
-function closeLogin(){ document.getElementById("loginModal").classList.remove("show"); }
-function fillDemo(){
-  document.getElementById("loginEmail").value="demo@gymcoaching.com";
-  document.getElementById("loginPass").value="password123";
-}
-
-/* ---------- APP NAV ---------- */
-function goHome(){
-  document.getElementById("dashboardView").style.display="none";
-  document.getElementById("homePage").style.display="block";
-  window.scrollTo({top:0, behavior:"smooth"});
-}
-function goDashboard(){
-  document.getElementById("homePage").style.display="none";
-  document.getElementById("dashboardView").style.display="block";
-  window.scrollTo({top:0, behavior:"smooth"});
-}
-
-/* ---------- LOGIN FLOW (DEMO) ---------- */
-function login(){
-  const email = document.getElementById("loginEmail").value.trim();
-  const pass  = document.getElementById("loginPass").value.trim();
-  const status = document.getElementById("loginStatus");
-
-  if(!email || !pass){
-    status.textContent="Please enter email and password.";
-    return;
-  }
-
-  status.textContent="Logged in ✅ (demo)";
-  const name = email.split("@")[0] || "Athlete";
-  document.getElementById("userName").textContent = name;
-
-  closeLogin();
-  setLoggedIn(true);
-  goDashboard();
+function setLoggedIn(name){
+localStorage.setItem("gymUser", name);
+updateUI();
 }
 
 function logout(){
-  setLoggedIn(false);
-  goHome();
+localStorage.removeItem("gymUser");
+updateUI();
+goHome();
 }
 
-function setLoggedIn(isIn){
-  document.getElementById("navLogin").style.display = isIn ? "none" : "inline";
-  document.getElementById("navDashboard").style.display = isIn ? "inline" : "none";
-  document.getElementById("navLogout").style.display = isIn ? "inline" : "none";
+function updateUI(){
+const user = localStorage.getItem("gymUser");
+
+if(user){
+document.getElementById("username").textContent=user;
+document.getElementById("loginBtn").style.display="none";
+document.getElementById("dashBtn").style.display="inline";
+document.getElementById("logoutBtn").style.display="inline";
+}else{
+document.getElementById("loginBtn").style.display="inline";
+document.getElementById("dashBtn").style.display="none";
+document.getElementById("logoutBtn").style.display="none";
+}
 }
 
-/* ---------- CONTACT DEMO ---------- */
-function sendMessage(){
-  const n = document.getElementById("cName").value.trim();
-  const e = document.getElementById("cEmail").value.trim();
-  const m = document.getElementById("cMsg").value.trim();
-  const s = document.getElementById("msgStatus");
+/* ---------- LOGIN FLOW ---------- */
 
-  if(!n || !e || !m){
-    s.textContent="Fill all fields first.";
-    return;
-  }
-  s.textContent="Message sent ✅ (demo)";
-  document.getElementById("cName").value="";
-  document.getElementById("cEmail").value="";
-  document.getElementById("cMsg").value="";
-  setTimeout(()=>s.textContent="", 2500);
+function openLogin(){
+document.getElementById("loginModal").style.display="flex";
 }
 
-/* Start state */
-setLoggedIn(false);
+function login(){
+let email=document.getElementById("email").value;
+if(!email) return;
 
-/* Click outside modal to close */
-document.getElementById("loginModal").addEventListener("click",(e)=>{
-  if(e.target.id==="loginModal") closeLogin();
-});
+let name=email.split("@")[0];
+setLoggedIn(name);
+
+document.getElementById("loginModal").style.display="none";
+goDashboard();
+}
+
+/* ---------- NAVIGATION ---------- */
+
+function goDashboard(){
+document.getElementById("home").style.display="none";
+document.getElementById("dashboard").style.display="block";
+}
+
+function goHome(){
+document.getElementById("dashboard").style.display="none";
+document.getElementById("home").style.display="block";
+}
+
+/* AUTO LOGIN CHECK */
+updateUI();
+if(localStorage.getItem("gymUser")){
+goDashboard();
+}
+
 </script>
 
 </body>
