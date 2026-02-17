@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gym Coaching App</title>
-
+<title>Gym Coaching Dashboard</title>
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -15,7 +14,7 @@
 
 <div class="modal" id="loginModal">
   <div class="modalBox">
-    <h3>Login</h3>
+    <h2>Login</h2>
     <input id="email" placeholder="Email">
     <input placeholder="Password">
     <button class="btn" onclick="login()">Login</button>
@@ -38,10 +37,26 @@
     <div id="dashboardPage">
       <h1>Welcome, <span id="username"></span> 👋</h1>
 
-      <div class="card">
-        <h3>Daily Calories</h3>
-        <h2 id="calories">0</h2>
-        <button class="btn" onclick="addCalories()">+250 kcal</button>
+      <div class="dashboardGrid">
+
+        <div class="card">
+          <h3>Daily Calories</h3>
+          <h2 id="calories">0</h2>
+          <button class="btn" onclick="addCalories()">+250 kcal</button>
+        </div>
+
+        <div class="card">
+          <h3>Workout Status</h3>
+          <p>Push / Pull / Legs</p >
+          <p>Completed: 4 / 6 sessions</p >
+        </div>
+
+        <div class="card">
+          <h3>Protein Target</h3>
+          <p>180g daily goal</p >
+          <p>Current: 120g</p >
+        </div>
+
       </div>
     </div>
 
@@ -65,6 +80,5 @@
 </div>
 
 <script src="app.js"></script>
-
 </body>
 </html>
