@@ -1,188 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gym Coaching</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gym Coaching</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:linear-gradient(180deg,#0b132b,#1c2541);
+color:white;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+padding:20px 60px;
+align-items:center;
+position:sticky;
+top:0;
+background:#0b132bee;
+backdrop-filter:blur(10px);
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+font-weight:500;
+}
+
+nav a:hover{
+color:#39ff14;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:100px 20px;
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:15px;
+}
+
+.hero p{
+opacity:.8;
+margin-bottom:30px;
+}
+
+.btn{
+background:#39ff14;
+border:none;
+padding:14px 30px;
+border-radius:12px;
+font-weight:600;
+cursor:pointer;
+box-shadow:0 0 15px #39ff14aa;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+/* STATS */
+
+.stats{
+display:flex;
+justify-content:center;
+gap:30px;
+margin-top:40px;
+flex-wrap:wrap;
+}
+
+.stat{
+background:#ffffff10;
+padding:20px 40px;
+border-radius:14px;
+backdrop-filter:blur(10px);
+}
+
+/* SECTION */
+
+section{
+padding:80px 60px;
+text-align:center;
+}
+
+.cards{
+display:flex;
+gap:25px;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:40px;
+}
+
+.card{
+background:#ffffff12;
+padding:30px;
+border-radius:16px;
+width:280px;
+backdrop-filter:blur(15px);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+/* FEATURES */
+
+.features{
+display:flex;
+gap:30px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:40px;
+}
+
+.feature{
+width:260px;
+background:#ffffff10;
+padding:25px;
+border-radius:14px;
+}
+
+/* PRICING */
+
+.price{
+border:1px solid #39ff1455;
+}
+
+.price h2{
+color:#39ff14;
+margin:10px 0;
+}
+
+/* CONTACT */
+
+.contact{
+display:flex;
+gap:40px;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:40px;
+}
+
+input, textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+border:none;
+background:#ffffff15;
+color:white;
+}
+
+textarea{
+height:120px;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:40px;
+opacity:.6;
+margin-top:60px;
+border-top:1px solid #ffffff20;
+}
+
+</style>
 </head>
 
 <body>
-  <!-- NAV -->
-  <header class="nav">
-    <div class="container nav__inner">
-      <div class="brand">Gym Coaching</div>
 
-      <nav class="nav__links">
-        <a href=" ">Home</a >
-        <a href="#programs">Programs</a >
-        <a href="#pricing">Pricing</a >
-        <a href="#contact">Contact</a >
-      </nav>
-    </div>
-  </header>
+<nav>
+<h2>Gym Coaching</h2>
+<div>
+<a href=" ">Home</a >
+<a href="#programs">Programs</a >
+<a href="#pricing">Pricing</a >
+<a href="#contact">Contact</a >
+</div>
+</nav>
 
-  <!-- HERO -->
-  <main id="home" class="hero">
-    <div class="container hero__inner">
-      <h1>Full-Stack Fitness Coaching Web Application</h1>
-      <p class="sub">
-        Portfolio project demonstrating responsive frontend design with Firebase backend integration for user coaching services.
-      </p >
-      <a class="btn btn--primary" href="#pricing">View Plans</a >
+<!-- HERO -->
+<section class="hero">
+<h1>Full-Stack Fitness Coaching Web Application</h1>
+<p>Responsive coaching platform with Firebase backend integration.</p >
 
-      <div class="hero__stats">
-        <div class="stat">
-          <div class="stat__num">3</div>
-          <div class="stat__label">Programs</div>
-        </div>
-        <div class="stat">
-          <div class="stat__num">3</div>
-          <div class="stat__label">Pricing Tiers</div>
-        </div>
-        <div class="stat">
-          <div class="stat__num">24/7</div>
-          <div class="stat__label">Support (Demo)</div>
-        </div>
-      </div>
-    </div>
-  </main>
+<button class="btn" onclick="location.href='#pricing'">View Plans</button>
 
-  <!-- PROGRAMS -->
-  <section id="programs" class="section">
-    <div class="container">
-      <h2 class="section__title">Coaching Programs</h2>
+<div class="stats">
+<div class="stat"><h3>3</h3><p>Programs</p ></div>
+<div class="stat"><h3>3</h3><p>Pricing Tiers</p ></div>
+<div class="stat"><h3>24/7</h3><p>Support (Demo)</p ></div>
+</div>
+</section>
 
-      <div class="grid grid--3">
-        <article class="card">
-          <h3>Beginner</h3>
-          <p>Learn correct form, build consistency, avoid injuries.</p >
-          <div class="pill">Best for starting out</div>
-        </article>
+<!-- FEATURES -->
+<section>
+<h2>Why Choose Our Coaching</h2>
 
-        <article class="card">
-          <h3>Muscle Building</h3>
-          <p>Progressive overload programs and recovery tracking.</p >
-          <div class="pill">Strength & hypertrophy</div>
-        </article>
+<div class="features">
+<div class="feature">
+<h3>Personalized Training</h3>
+<p>Programs adapted to your goals and fitness level.</p >
+</div>
 
-        <article class="card">
-          <h3>Fat Loss</h3>
-          <p>Training and nutrition strategy tailored to lifestyle.</p >
-          <div class="pill">Sustainable results</div>
-        </article>
-      </div>
-    </div>
-  </section>
+<div class="feature">
+<h3>Progress Tracking</h3>
+<p>Track strength, weight and performance improvements.</p >
+</div>
 
-  <!-- PRICING -->
-  <section id="pricing" class="section">
-    <div class="container">
-      <h2 class="section__title">Pricing Plans</h2>
+<div class="feature">
+<h3>Nutrition Guidance</h3>
+<p>Smart nutrition plans designed for sustainable results.</p >
+</div>
 
-      <div class="grid grid--3">
-        <article class="card card--pricing">
-          <div class="tier">Starter</div>
-          <div class="price">$49 <span>/ month</span></div>
-          <ul class="list">
-            <li>Email support</li>
-            <li>Weekly check-in</li>
-          </ul>
-          <button class="btn btn--ghost" onclick="pickPlan('Starter')">Get Started</button>
-        </article>
+<div class="feature">
+<h3>Online Coaching</h3>
+<p>Stay connected with your coach anytime.</p >
+</div>
+</div>
+</section>
 
-        <article class="card card--pricing card--featured">
-          <div class="tier">Pro</div>
-          <div class="price">$99 <span>/ month</span></div>
-          <ul class="list">
-            <li>Custom workouts</li>
-            <li>Nutrition guidance</li>
-            <li>24/7 support</li>
-          </ul>
-          <button class="btn btn--primary" onclick="pickPlan('Pro')">Join Pro</button>
-        </article>
+<!-- PROGRAMS -->
+<section id="programs">
+<h2>Coaching Programs</h2>
 
-        <article class="card card--pricing">
-          <div class="tier">Elite</div>
-          <div class="price">$149 <span>/ month</span></div>
-          <ul class="list">
-            <li>1-on-1 coaching</li>
-            <li>Weekly calls</li>
-            <li>Full lifestyle plan</li>
-          </ul>
-          <button class="btn btn--ghost" onclick="pickPlan('Elite')">Join Elite</button>
-        </article>
-      </div>
-    </div>
-  </section>
+<div class="cards">
+<div class="card">
+<h3>Beginner</h3>
+<p>Learn correct form and build consistency safely.</p >
+</div>
 
-  <!-- CONTACT -->
-  <section id="contact" class="section">
-    <div class="container">
-      <h2 class="section__title">Contact</h2>
+<div class="card">
+<h3>Muscle Building</h3>
+<p>Progressive overload and hypertrophy focused training.</p >
+</div>
 
-      <div class="contact">
-        <div class="contact__info card">
-          <p><strong>Email:</strong> coach@email.com</p >
-          <p><strong>Instagram:</strong> @gymcoach</p >
-          <p class="muted">This is a demo contact section for the portfolio.</p >
-        </div>
+<div class="card">
+<h3>Fat Loss</h3>
+<p>Training and nutrition strategy tailored to lifestyle.</p >
+</div>
+</div>
+</section>
 
-        <form class="contact__form card" onsubmit="sendMessage(event)">
-          <label>
-            <span>Your name</span>
-            <input type="text" id="name" placeholder="Your name" required />
-          </label>
+<!-- PRICING -->
+<section id="pricing">
+<h2>Pricing Plans</h2>
 
-          <label>
-            <span>Your email</span>
-            <input type="email" id="email" placeholder="Your email" required />
-          </label>
+<div class="cards">
 
-          <label class="full">
-            <span>Your message</span>
-            <textarea id="message" placeholder="Your message" rows="4" required></textarea>
-          </label>
+<div class="card price">
+<h3>Starter</h3>
+<h2>$49 / month</h2>
+<p>Email support</p >
+<p>Weekly check-in</p >
+<button class="btn">Get Started</button>
+</div>
 
-          <button class="btn btn--primary" type="submit">Send Message</button>
-          <p id="formStatus" class="muted"></p >
-        </form>
-      </div>
-    </div>
-  </section>
+<div class="card price">
+<h3>Pro</h3>
+<h2>$99 / month</h2>
+<p>Custom workouts</p >
+<p>Nutrition guidance</p >
+<p>24/7 support</p >
+<button class="btn">Join Pro</button>
+</div>
 
-  <!-- DASHBOARD -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section__title">Your Training Dashboard</h2>
+<div class="card price">
+<h3>Elite</h3>
+<h2>$149 / month</h2>
+<p>1-on-1 coaching</p >
+<p>Weekly calls</p >
+<p>Full lifestyle plan</p >
+<button class="btn">Join Elite</button>
+</div>
 
-      <div class="grid grid--3">
-        <article class="card">
-          <h3>Weekly Plan</h3>
-          <p>Push • Pull • Legs training structure with progressive overload.</p >
-        </article>
+</div>
+</section>
 
-        <article class="card">
-          <h3>Progress Tracking</h3>
-          <p>Track weight, strength and performance improvements weekly.</p >
-        </article>
+<!-- CONTACT -->
+<section id="contact">
+<h2>Contact</h2>
 
-        <article class="card">
-          <h3>Nutrition Target</h3>
-          <p>Daily calories: 2400 kcal<br />Protein goal: 180g</p >
-        </article>
-      </div>
-    </div>
-  </section>
+<div class="contact">
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer__inner">
-      <span>© 2026 Gym Coaching. All rights reserved.</span>
-      <span class="muted">Built for GitHub Pages</span>
-    </div>
-  </footer>
+<div>
+<p>Email: coach@email.com</p >
+<p>Instagram: @gymcoach</p >
+</div>
 
-  <script src="script.js"></script>
+<div style="width:350px;">
+<input placeholder="Your name">
+<input placeholder="Your email">
+<textarea placeholder="Your message"></textarea>
+<button class="btn" style="margin-top:15px;">Send Message</button>
+</div>
+
+</div>
+</section>
+
+<footer>
+© 2026 Gym Coaching — Portfolio Project
+</footer>
+
 </body>
 </html>
