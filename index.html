@@ -7,165 +7,186 @@
 
 <style>
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:linear-gradient(180deg,#0b1220,#0f1f3d);
-    color:white;
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(180deg,#081020,#0f2347);
+color:white;
+overflow-x:hidden;
 }
 
-/* ---------- NAVBAR ---------- */
+/* ---------- NAV ---------- */
 nav{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 60px;
-}
-
-nav h2{
-    margin:0;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+position:sticky;
+top:0;
+background:rgba(10,15,30,.7);
+backdrop-filter:blur(10px);
+z-index:100;
 }
 
 nav a{
-    color:white;
-    text-decoration:none;
-    margin-left:25px;
-    opacity:.8;
+color:white;
+text-decoration:none;
+margin-left:25px;
+opacity:.75;
+font-weight:500;
 }
-nav a:hover{
-    opacity:1;
-}
+nav a:hover{opacity:1}
 
 /* ---------- HERO ---------- */
 .hero{
-    text-align:center;
-    padding:90px 20px 60px;
+text-align:center;
+padding:110px 20px 70px;
 }
 
 .hero h1{
-    font-size:42px;
-    margin-bottom:10px;
+font-size:44px;
+margin-bottom:12px;
 }
 
 .hero p{
-    opacity:.8;
-    margin-bottom:30px;
+opacity:.8;
+margin-bottom:35px;
 }
 
+/* ---------- BUTTON ---------- */
 .btn{
-    background:#39ff14;
-    color:black;
-    padding:14px 28px;
-    border-radius:10px;
-    font-weight:bold;
-    text-decoration:none;
-    box-shadow:0 0 18px #39ff14aa;
+background:linear-gradient(45deg,#39ff14,#00ffa6);
+color:black;
+padding:14px 30px;
+border-radius:12px;
+font-weight:bold;
+text-decoration:none;
+box-shadow:0 0 20px #39ff14aa;
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+box-shadow:0 0 35px #39ff14;
 }
 
 /* ---------- STATS ---------- */
 .stats{
-    display:flex;
-    justify-content:center;
-    gap:30px;
-    margin:40px auto 80px;
-    flex-wrap:wrap;
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+margin:60px 0;
 }
 
-.stat-card{
-    background:rgba(255,255,255,0.06);
-    padding:25px 40px;
-    border-radius:14px;
-    text-align:center;
-    min-width:160px;
+.stat{
+background:rgba(255,255,255,0.06);
+padding:28px 45px;
+border-radius:16px;
+text-align:center;
 }
 
-.stat-card h3{
-    color:#39ff14;
-    margin:0;
-    font-size:28px;
+.stat h2{
+color:#39ff14;
+margin:0;
+font-size:32px;
 }
 
 /* ---------- SECTION ---------- */
 .section{
-    padding:60px 10%;
-    text-align:center;
+padding:70px 10%;
+text-align:center;
 }
 
 .cards{
-    display:flex;
-    gap:25px;
-    justify-content:center;
-    flex-wrap:wrap;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:28px;
 }
 
 .card{
-    background:rgba(255,255,255,0.07);
-    padding:30px;
-    border-radius:16px;
-    width:260px;
-    transition:.3s;
+background:rgba(255,255,255,0.07);
+padding:32px;
+border-radius:18px;
+width:260px;
+transition:.35s;
+opacity:0;
+transform:translateY(40px);
+}
+
+.card.show{
+opacity:1;
+transform:translateY(0);
 }
 
 .card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 0 25px rgba(0,255,120,.3);
+transform:translateY(-10px);
+box-shadow:0 0 35px rgba(0,255,120,.35);
 }
 
 /* ---------- PRICING ---------- */
 .price{
-    font-size:28px;
-    color:#39ff14;
-    margin:15px 0;
+color:#39ff14;
+font-size:30px;
+margin:15px 0;
 }
 
-.pricing-card{
-    background:rgba(255,255,255,0.08);
-    padding:35px;
-    border-radius:18px;
-    width:260px;
-    transition:.3s;
+.pricing{
+background:rgba(255,255,255,0.08);
+padding:35px;
+border-radius:20px;
+width:260px;
+transition:.3s;
+opacity:0;
+transform:translateY(40px);
 }
 
-.pricing-card:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 30px #39ff1455;
+.pricing.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.pricing:hover{
+transform:scale(1.06);
+box-shadow:0 0 40px #39ff1450;
 }
 
 /* ---------- CONTACT ---------- */
-.contact-container{
-    display:flex;
-    justify-content:center;
-    gap:40px;
-    flex-wrap:wrap;
-    margin-top:30px;
-}
-
-.contact-info{
-    text-align:left;
+.contact-wrap{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:40px;
+margin-top:30px;
 }
 
 input, textarea{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    border-radius:8px;
-    border:none;
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:10px;
+border:none;
 }
 
 button{
-    background:#39ff14;
-    border:none;
-    padding:14px;
-    border-radius:10px;
-    font-weight:bold;
-    cursor:pointer;
+background:linear-gradient(45deg,#39ff14,#00ffa6);
+border:none;
+padding:14px;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
 }
 
 /* ---------- FOOTER ---------- */
 footer{
-    text-align:center;
-    padding:40px 0;
-    opacity:.7;
+text-align:center;
+padding:40px;
+opacity:.7;
 }
 
 </style>
@@ -173,71 +194,43 @@ footer{
 
 <body>
 
-<!-- NAV -->
 <nav>
-    <h2>Gym Coaching</h2>
-    <div>
-        <a href=" ">Home</a >
-        <a href="#programs">Programs</a >
-        <a href="#pricing">Pricing</a >
-        <a href="#contact">Contact</a >
-    </div>
+<h2>Gym Coaching</h2>
+<div>
+<a href=" ">Home</a >
+<a href="#programs">Programs</a >
+<a href="#pricing">Pricing</a >
+<a href="#contact">Contact</a >
+</div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-    <h1>Full-Stack Fitness Coaching Web Application</h1>
-    <p>Interactive coaching platform with client dashboard experience.</p >
-    <a href="#pricing" class="btn">Start Coaching</a >
+<h1>Full-Stack Fitness Coaching Web Application</h1>
+<p>Interactive coaching platform with client dashboard experience.</p >
+<a href="#pricing" class="btn">Start Coaching</a >
 </section>
 
-<!-- PROOF / STATS -->
 <div class="stats">
-    <div class="stat-card">
-        <h3>3</h3>
-        <p>Programs</p >
-    </div>
-    <div class="stat-card">
-        <h3>24/7</h3>
-        <p>Support Demo</p >
-    </div>
-    <div class="stat-card">
-        <h3>Firebase</h3>
-        <p>Backend Ready</p >
-    </div>
+<div class="stat"><h2 id="count1">0</h2><p>Programs</p ></div>
+<div class="stat"><h2 id="count2">0</h2><p>Clients Demo</p ></div>
+<div class="stat"><h2 id="count3">0</h2><p>Support</p ></div>
 </div>
 
-<!-- PROGRAMS -->
 <section id="programs" class="section">
 <h2>Coaching Programs</h2>
 
 <div class="cards">
-
-<div class="card">
-<h3>Beginner</h3>
-<p>Learn correct form, build consistency and avoid injuries.</p >
-</div>
-
-<div class="card">
-<h3>Muscle Building</h3>
-<p>Progressive overload programs and recovery tracking.</p >
-</div>
-
-<div class="card">
-<h3>Fat Loss</h3>
-<p>Training and nutrition strategy tailored to lifestyle.</p >
-</div>
-
+<div class="card"><h3>Beginner</h3><p>Learn correct form and build consistency safely.</p ></div>
+<div class="card"><h3>Muscle Building</h3><p>Progressive overload and recovery tracking.</p ></div>
+<div class="card"><h3>Fat Loss</h3><p>Training and nutrition strategy tailored to lifestyle.</p ></div>
 </div>
 </section>
 
-<!-- PRICING -->
 <section id="pricing" class="section">
 <h2>Pricing Plans</h2>
 
 <div class="cards">
-
-<div class="pricing-card">
+<div class="pricing">
 <h3>Starter</h3>
 <div class="price">$49</div>
 <p>Email support</p >
@@ -246,7 +239,7 @@ footer{
 <a class="btn">Get Started</a >
 </div>
 
-<div class="pricing-card">
+<div class="pricing">
 <h3>Pro</h3>
 <div class="price">$99</div>
 <p>Custom workouts</p >
@@ -256,7 +249,7 @@ footer{
 <a class="btn">Join Pro</a >
 </div>
 
-<div class="pricing-card">
+<div class="pricing">
 <h3>Elite</h3>
 <div class="price">$149</div>
 <p>1-on-1 coaching</p >
@@ -265,20 +258,17 @@ footer{
 <br>
 <a class="btn">Join Elite</a >
 </div>
-
 </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact" class="section">
 <h2>Contact</h2>
 
-<div class="contact-container">
+<div class="contact-wrap">
 
-<div class="contact-info">
+<div>
 <p>Email: coach@email.com</p >
 <p>Instagram: @gymcoach</p >
-<p>This is a demo contact section for portfolio presentation.</p >
 </div>
 
 <div style="width:320px;">
@@ -294,6 +284,42 @@ footer{
 <footer>
 © 2026 Gym Coaching App — Portfolio Demo
 </footer>
+
+<script>
+
+/* ---------- SCROLL REVEAL ---------- */
+const observer = new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show");
+}
+});
+});
+
+document.querySelectorAll(".card,.pricing")
+.forEach(el=>observer.observe(el));
+
+
+/* ---------- COUNTER ANIMATION ---------- */
+function animate(id,target){
+let count=0;
+let step=target/60;
+
+let interval=setInterval(()=>{
+count+=step;
+if(count>=target){
+count=target;
+clearInterval(interval);
+}
+document.getElementById(id).innerText=Math.floor(count);
+},20);
+}
+
+animate("count1",3);
+animate("count2",120);
+animate("count3",24);
+
+</script>
 
 </body>
 </html>
