@@ -5,280 +5,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gym Coaching App</title>
 
+<link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#0b132b;
-color:white;
-transition:.3s;
-}
-
-/* LIGHT MODE */
-body.light{
-background:#f4f6f8;
-color:#111;
-}
-
-/* LAYOUT */
-.container{display:flex;min-height:100vh;}
-
-.sidebar{
-width:220px;
-background:#050a1c;
-padding:25px;
-display:flex;
-flex-direction:column;
-}
-
-.sidebar button{
-margin:8px 0;
-padding:10px;
-border:none;
-background:#1c2541;
-color:white;
-border-radius:8px;
-cursor:pointer;
-}
-
-.sidebar button:hover{
-background:#39ff14;
-color:black;
-}
-
-.main{
-flex:1;
-padding:35px;
-}
-
-/* CARDS */
-.card{
-background:#1c2541;
-padding:25px;
-border-radius:14px;
-margin:12px;
-}
-
-body.light .card{
-background:white;
-box-shadow:0 0 10px #00000020;
-}
-
-/* BUTTON */
-.btn{
-background:linear-gradient(45deg,#39ff14,#00ffa6);
-border:none;
-padding:10px 18px;
-border-radius:8px;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
-}
-
-/* TOAST */
-.toast{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#39ff14;
-color:black;
-padding:14px;
-border-radius:10px;
-opacity:0;
-transition:.4s;
-}
-
-/* LOGIN */
-.modal{
-position:fixed;
-inset:0;
-display:none;
-align-items:center;
-justify-content:center;
-background:#000000aa;
-}
-
-.modalBox{
-background:#1c2541;
-padding:30px;
-border-radius:12px;
-width:300px;
-}
-
-input{
-width:100%;
-padding:10px;
-margin-top:10px;
-border-radius:6px;
-border:none;
-}
-
-/* MOBILE */
-@media(max-width:800px){
-.container{flex-direction:column;}
-.sidebar{width:100%;flex-direction:row;overflow:auto;}
-}
-
-</style>
 </head>
 
 <body>
 
 <div class="toast" id="toast">Saved ✅</div>
 
-<!-- LOGIN -->
 <div class="modal" id="loginModal">
-<div class="modalBox">
-<h3>Login</h3>
-<input id="email" placeholder="Email">
-<input placeholder="Password">
-<br><br>
-<button class="btn" onclick="login()">Login</button>
-</div>
+  <div class="modalBox">
+    <h3>Login</h3>
+    <input id="email" placeholder="Email">
+    <input placeholder="Password">
+    <button class="btn" onclick="login()">Login</button>
+  </div>
 </div>
 
 <div class="container">
 
-<div class="sidebar">
-<h2>🏋 Gym</h2>
-<button onclick="showPage('dashboard')">Dashboard</button>
-<button onclick="showPage('analytics')">Analytics</button>
-<button onclick="showPage('profile')">Profile</button>
-<button onclick="toggleTheme()">Theme</button>
-<button onclick="logout()">Logout</button>
-</div>
+  <div class="sidebar">
+    <h2>🏋 Gym</h2>
+    <button onclick="showPage('dashboard')">Dashboard</button>
+    <button onclick="showPage('analytics')">Analytics</button>
+    <button onclick="showPage('profile')">Profile</button>
+    <button onclick="toggleTheme()">Theme</button>
+    <button onclick="logout()">Logout</button>
+  </div>
 
-<div class="main">
+  <div class="main">
 
-<!-- DASHBOARD -->
-<div id="dashboardPage">
-<h1>Welcome, <span id="username"></span> 👋</h1>
+    <div id="dashboardPage">
+      <h1>Welcome, <span id="username"></span> 👋</h1>
 
-<div class="card">
-<h3>Daily Calories</h3>
-<h2 id="calories">0</h2>
-<button class="btn" onclick="addCalories()">+250 kcal</button>
-</div>
-</div>
+      <div class="card">
+        <h3>Daily Calories</h3>
+        <h2 id="calories">0</h2>
+        <button class="btn" onclick="addCalories()">+250 kcal</button>
+      </div>
+    </div>
 
-<!-- ANALYTICS -->
-<div id="analyticsPage" style="display:none;">
-<h1>Performance Analytics</h1>
+    <div id="analyticsPage" style="display:none;">
+      <h1>Performance Analytics</h1>
+      <div class="card">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
 
-<div class="card">
-<canvas id="chart"></canvas>
-</div>
+    <div id="profilePage" style="display:none;">
+      <h1>Profile Settings</h1>
+      <div class="card">
+        <input id="nameInput" placeholder="Your Name">
+        <button class="btn" onclick="saveProfile()">Save</button>
+      </div>
+    </div>
 
-</div>
-
-<!-- PROFILE -->
-<div id="profilePage" style="display:none;">
-<h1>Profile Settings</h1>
-
-<div class="card">
-<input id="nameInput" placeholder="Your Name">
-<button class="btn" onclick="saveProfile()">Save Profile</button>
-</div>
+  </div>
 
 </div>
 
-</div>
-</div>
-
-<script>
-
-/* LOGIN */
-function login(){
-let email=document.getElementById("email").value;
-if(!email)return;
-
-localStorage.setItem("gymUser",email.split("@")[0]);
-updateUI();
-loginModal.style.display="none";
-initChart();
-}
-
-function logout(){
-localStorage.clear();
-location.reload();
-}
-
-function updateUI(){
-let user=localStorage.getItem("gymUser");
-if(!user){
-loginModal.style.display="flex";
-}else{
-document.getElementById("username").textContent=user;
-}
-}
-
-/* NAVIGATION */
-function showPage(page){
-dashboardPage.style.display="none";
-analyticsPage.style.display="none";
-profilePage.style.display="none";
-document.getElementById(page+"Page").style.display="block";
-}
-
-/* CALORIES */
-let kcal=Number(localStorage.getItem("kcal")||0);
-document.getElementById("calories").innerText=kcal;
-
-function addCalories(){
-kcal+=250;
-localStorage.setItem("kcal",kcal);
-document.getElementById("calories").innerText=kcal;
-notify();
-}
-
-/* PROFILE */
-function saveProfile(){
-let name=document.getElementById("nameInput").value;
-if(!name)return;
-localStorage.setItem("gymUser",name);
-updateUI();
-notify();
-}
-
-/* TOAST */
-function notify(){
-let t=document.getElementById("toast");
-t.style.opacity=1;
-setTimeout(()=>t.style.opacity=0,2000);
-}
-
-/* THEME */
-function toggleTheme(){
-document.body.classList.toggle("light");
-}
-
-/* CHART */
-function initChart(){
-const ctx=document.getElementById('chart');
-if(!ctx) return;
-
-new Chart(ctx,{
-type:'line',
-data:{
-labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-datasets:[{
-label:'Strength Progress',
-data:[40,45,50,55,60,65,70],
-borderColor:'#39ff14',
-tension:.4
-}]
-}
-});
-}
-
-/* INIT */
-updateUI();
-if(localStorage.getItem("gymUser")) initChart();
-
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
